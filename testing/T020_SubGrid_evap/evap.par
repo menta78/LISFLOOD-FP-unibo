@@ -1,0 +1,18 @@
+DEMfile                  Evap_dem.asc
+resroot                  res-evap
+dirroot                   results-evap
+sim_time                 500.0
+initial_tstep            1.0
+massint                  1.0
+saveint                  1.0
+startfile                  Evap_start.asc
+startelev
+SGCwidth               Evap_width.asc
+SGCbank                 Evap_banks.asc
+evaporation               Evap_rate.asc
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+depththresh	0.1
+#binary_out
+#qoutput

@@ -1,0 +1,24 @@
+# Free downstream boundary condition with
+# diffusive solver and tributaries
+#
+# Mark Trigg 21/09/2009
+#
+DEMfile         CTFreeBC_dem.ascii
+riverfile       CTFreeBC.river
+resroot         CTFreeBC_D
+dirroot         CTFreeBC_results_D
+sim_time        15000.0
+initial_tstep   5.0
+massint         10.0
+saveint         15000.0
+fpfric          0.035
+overpassfile    CTFreeBC_D.opts
+bdyfile			CTFreeBC_D.bdy
+diffusive
+elevoff
+depthoff
+#profiles
+#debug
+startq
+adaptoff
+chainageoff

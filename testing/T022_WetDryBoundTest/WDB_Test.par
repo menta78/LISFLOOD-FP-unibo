@@ -1,0 +1,12 @@
+DEMfile                  WDB_Test_dem.ascii
+resroot                  WDB_Test
+dirroot			 WDB_Test
+sim_time		       1000.0
+initial_tstep            1
+massint                  360.0
+saveint                  1.0
+fpfric			 0.06
+bcifile                  WDB_Test.bci
+bdyfile		WDB_Test.bdy
+adaptoff
+#stagefile		 WDB_Test.stage

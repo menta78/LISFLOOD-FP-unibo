@@ -1,0 +1,16 @@
+DEMfile                  rain_dem.asc
+resroot                  res_rain
+dirroot                   results_rain
+sim_time                 500.0
+initial_tstep            1.0
+massint                  1.0
+saveint                  1.0
+SGCwidth               rain_width_channel.asc
+SGCbank                 rain_banks.asc
+rainfall               rain_rate.asc
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+#depththresh	0.1
+#binary_out
+qoutput

@@ -1,0 +1,26 @@
+# Simple test case QFIX, HFIX and FREE boundary conditions on N and S
+# uses a point source in the centre of each channel
+# no 1D river channel.
+#
+# Toby Dunne 12/11/2014
+#
+#
+DEMfile                  BCTest_EW_dtm.ascii
+resroot                  BCTest
+dirroot			 BCTestRes_EW_SGC
+sim_time		       100.0
+initial_tstep            1
+massint                  1
+saveint                  1.0
+fpfric			 0.06
+bcifile                  BCTest_EW.bci
+adaptoff
+SGCwidth       BCTest_EW_SGC_width.ascii
+SGCbank		  BCTest_EW_SGC_bank.ascii
+SGCbed        BCTest_EW_SGC_bed.ascii
+qoutput
+#voutput
+#voutput_max
+#hazard
+voutput_stage
+stagefile		 BCTest_EW.stage

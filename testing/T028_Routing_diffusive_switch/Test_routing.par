@@ -1,0 +1,23 @@
+# Test 3 parameter file
+DEMfile         DEM.asc
+resroot         Acc
+dirroot         Acc_routing
+sim_time        11000
+initial_tstep   1
+massint         1.0
+saveint         5
+fpfric          0.03
+bcifile         test.bci
+bdyfile         test.bdy
+stagefile       Test.stage
+elevoff
+acceleration
+#qoutput
+voutput
+cfl             0.7
+#theta		0.7
+routing
+SGC_enable
+routesfthresh	0.02
+routingspeed	2
+#dist_routing

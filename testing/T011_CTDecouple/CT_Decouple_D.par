@@ -1,0 +1,29 @@
+# 
+# Hydrodynamic test for channel timestep decoupling from floodplain timestep
+# single channel with dx and dy sections and multiple floodplain 
+# intereactions QVAR input and HVAR d/s boundary (for diffusive) 
+# 
+# Mark Trigg 31/7/2008
+#
+DEMfile          CT_Decouple_dem.ascii
+riverfile        CT_Decouple.river
+resroot          CT_Decouple_D
+dirroot          CT_Decouple_D_results
+bcifile		 CT_Decouple.bci
+bdyfile		 CT_Decouple.bdy
+sim_time         86400.0
+initial_tstep    1.0
+massint          60.0
+saveint          3600.0
+fpfric           0.03
+overpassfile	 CT_Decouple.overpass
+diffusive
+ts_multiple	 	10
+elevoff
+depthoff
+ch_start_h	 	1.65
+htol  		 0.5
+
+
+
+

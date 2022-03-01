@@ -1,0 +1,136 @@
+# !/bin/tcsh
+#
+# PBS -l walltime=00:10:00,nodes=1:ppn=1
+#
+module load intel/cce/9.1.045
+setenv OMP_NUM_THREADS 1
+
+pwdex="${PWD}"
+myex="${PWD}/lisflood_lin"
+myexold="${PWD}/lisflood_lin_old"
+
+cd $pwdex/T001_buscot
+$myexold  buscot_D.par
+mv results_D test_results_D
+cd $pwdex/T001_buscot
+$myex  buscot_D.par
+diff --brief test_results_D results_D
+$myexold  buscot.par
+mv results test_results
+cd $pwdex/T001_buscot
+$myex  buscot.par
+diff --brief test_results results
+
+cd $pwdex/T002_BCTest
+$myexold  BCTest.par
+mv BCTestRes test_BCTestRes
+cd $pwdex/T002_BCTest
+$myex BCTest.par
+diff --brief test_BCTestRes BCTestRes
+
+cd $pwdex/T003_CTAna
+$myexold  CTAna_D.par
+mv CTA_D_results test_CTA_D_results
+cd $pwdex/T003_CTAna
+$myex CTAna_D.par
+diff --brief test_CTA_D_results CTA_D_results
+$myexold  CTAna_K.par
+mv CTA_K_results test_CTA_K_results
+cd $pwdex/T003_CTAna
+$myex CTAna_K.par
+diff --brief test_CTA_K_results CTA_K_results
+
+cd $pwdex/T004_CTDiffZone
+$myexold  CTDiffZone_K.par
+mv CTDZ_K_results test_CTDZ_K_results
+cd $pwdex/T004_CTDiffZone
+$myex CTDiffZone_K.par
+diff --brief test_CTDZ_K_results CTDZ_K_results
+$myexold  CTDiffZone_D.par
+mv CTDZ_D_results test_CTDZ_D_results
+cd $pwdex/T004_CTDiffZone
+$myex CTDiffZone_D.par
+diff --brief test_CTDZ_D_results CTDZ_D_results
+
+cd $pwdex/T005_CTFullZone
+$myexold  CTFullZone_D.par
+mv CTFZ_D_results test_CTFZ_D_results
+cd $pwdex/T005_CTFullZone
+$myex CTFullZone_D.par
+diff --brief test_CTFZ_D_results CTFZ_D_results
+$myexold  CTFullZone_K.par
+mv CTFZ_K_results test_CTFZ_K_results 
+cd $pwdex/T005_CTFullZone
+$myex CTFullZone_K.par
+diff --brief test_CTFZ_K_results CTFZ_K_results
+
+cd $pwdex/T006_CTKinZone
+$myexold  CTKinZone_D.par
+mv CTKZ_D_results test_CTKZ_D_results
+cd $pwdex/T006_CTKinZone
+$myex CTKinZone_D.par
+diff --brief test_CTKZ_D_results CTKZ_D_results
+$myexold  CTKinZone_K.par 
+mv CTKZ_K_results test_CTKZ_K_results 
+cd $pwdex/T006_CTKinZone
+$myex CTKinZone_K.par
+diff --brief test_CTKZ_K_results CTKZ_K_results
+
+cd $pwdex/T007_CTBranchFine
+$myexold  CTBranchFine_K.par 
+mv CTBrFine_results_K test_CTBrFine_results_K
+cd $pwdex/T007_CTBranchFine
+$myex CTBranchFine_K.par
+diff --brief test_CTBrFine_results_K CTBrFine_results_K
+$myexold  CTBranchFine_D.par
+mv CTBrFine_results_D test_CTBrFine_results_D 
+cd $pwdex/T007_CTBranchFine
+$myex CTBranchFine_D.par
+diff --brief test_CTBrFine_results_D CTBrFine_results_D
+
+cd $pwdex/T008_CTBankFlow
+$myexold  CT_BankFlow.par
+mv CT_BankFlow_results test_CT_BankFlow_results
+cd $pwdex/T008_CTBankFlow
+$myex CT_BankFlow.par
+diff --brief test_CT_BankFlow_results CT_BankFlow_results
+
+cd $pwdex/T009_CTMultitest
+$myexold  CT_multitest_D.par
+mv CT_Multitest_D_results test_CT_Multitest_D_results 
+cd $pwdex/T009_CTMultitest
+$myex CT_multitest_D.par
+diff --brief test_CT_Multitest_D_results CT_Multitest_D_results
+$myexold  CT_multitest_K.par
+mv CT_Multitest_K_results test_CT_Multitest_K_results 
+cd $pwdex/T009_CTMultitest
+$myex CT_multitest_K.par
+diff --brief test_CT_Multitest_K_results CT_Multitest_K_results
+
+cd $pwdex/T010_planar_beach
+$myexold  planar_beach.par
+mv res_pb test_res_pb 
+cd $pwdex/T010_planar_beach
+$myex planar_beach.par
+diff --brief test_res_pb res_pb
+
+cd $pwdex/T011_CTDecouple
+$myexold  CT_Decouple_D.par
+mv CT_Decouple_D_results test_CT_Decouple_D_results 
+cd $pwdex/T011_CTDecouple
+$myex CT_Decouple_D.par
+diff --brief test_CT_Decouple_D_results CT_Decouple_D_results
+$myexold  CT_Decouple_K.par
+mv CT_Decouple_K_results test_CT_Decouple_K_results 
+cd $pwdex/T011_CTDecouple
+$myex CT_Decouple_K.par
+diff --brief test_CT_Decouple_K_results CT_Decouple_K_results
+
+cd $pwdex/T012_ETInfTest
+$myexold  ETinfTest.par
+mv ETInfTestRes test_ETInfTestRes
+cd $pwdex/T012_ETInfTest
+$myex ETinfTest.par
+diff --brief test_ETInfTestRes ETInfTestRes
+
+echo all done

@@ -1,0 +1,5 @@
+Tribs 1
+3
+9550	9950	200	0.03	10.0	QVAR	inflow
+9550	450	200	
+9950	450	200	0.03	0	HVAR	dsboundary

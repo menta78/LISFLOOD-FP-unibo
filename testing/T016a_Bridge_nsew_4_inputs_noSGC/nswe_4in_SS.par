@@ -1,0 +1,16 @@
+# nswe 4 channel simple test model
+# 
+# 
+DEMfile         nswe_4in_DEM.asc
+resroot         res
+dirroot          results_4in_SS
+sim_time       400000
+initial_tstep   100.0
+massint         3600
+saveint         400000
+fpfric            0.02
+bcifile           nswe_4in_BC_SS.bci
+drycheckoff
+acceleration
+elevoff
+#depthoff

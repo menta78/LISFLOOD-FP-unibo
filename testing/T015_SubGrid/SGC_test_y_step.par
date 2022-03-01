@@ -1,0 +1,20 @@
+# Toy model parameter file
+DEMfile         DEM2_y.asc
+resroot         res
+dirroot          results_SGC_y
+sim_time       1000
+initial_tstep   100.0
+massint         54405.0
+saveint         1.0
+fpfric            0.04
+bcifile           inflow_y.bci
+bdyfile          inflow_SGC.bdy.txt
+#elevoff
+drycheckoff
+qoutput
+acceleration
+SGCp             0.78
+SGCr		    0.12
+SGCn             0.04
+SGCwidth       width_y.asc
+SGCbank        DEM2_y.asc

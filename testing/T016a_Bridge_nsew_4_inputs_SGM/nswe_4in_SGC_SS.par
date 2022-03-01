@@ -1,0 +1,20 @@
+# nswe 4 channel simple test model
+# 
+# 
+DEMfile         nswe_4in_SGC_DEM.asc
+resroot         res
+dirroot          results_4in_SGC_SS
+sim_time       400000
+initial_tstep   100.0
+massint         3600
+saveint         400000
+fpfric            0.02
+bcifile           nswe_4in_BC_SS.bci
+drycheckoff
+acceleration
+SGC              0.78
+SGCr		    0.275422870333816
+SGCwidth       nswe_4in_SGC_width.asc
+SGCbank        nswe_4in_SGC_DEM.asc
+elevoff
+#depthoff

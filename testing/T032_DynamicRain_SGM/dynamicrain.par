@@ -1,0 +1,14 @@
+DEMfile		dynamicrain.dem
+dynamicrainfile	dynamicrain.nc
+resroot		dynamicrain
+dirroot		results
+
+sim_time	4.0
+initial_tstep	1.0
+saveint		1.0
+massint		1.0
+fpfric		0.04
+depththresh   0.0000001
+sgc_enable
+#acceleration
+#fv1

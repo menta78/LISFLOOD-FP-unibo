@@ -1,0 +1,708 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseFloat_win32|Win32">
+      <Configuration>ReleaseFloat_win32</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="ReleaseFloat_win32|x64">
+      <Configuration>ReleaseFloat_win32</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_double_all_channel|Win32">
+      <Configuration>Release_double_all_channel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_double_all_channel|x64">
+      <Configuration>Release_double_all_channel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_double|Win32">
+      <Configuration>Release_double</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_float_all_channel|Win32">
+      <Configuration>Release_float_all_channel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_float_all_channel|x64">
+      <Configuration>Release_float_all_channel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_float|Win32">
+      <Configuration>Release_float</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_float|x64">
+      <Configuration>Release_float</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_double|x64">
+      <Configuration>Release_double</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9E49EBA1-7742-4987-BB55-C07BDF06808E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <SccProjectName>Svn</SccProjectName>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccProvider>SubversionScc</SccProvider>
+    <ProjectName>lisflood</ProjectName>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">
+    <TargetName>$(ProjectName)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\Users\ggjcn\OneDrive - University of Bristol\LISFLOOD-FP\dll_intel;$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>3PlusGreaterDetail6</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\ggjcn\OneDrive - University of Bristol\LISFLOOD-FP\dll_intel;$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>3PlusGreaterDetail6</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_ONLY_RECT=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_ONLY_RECT=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_ONLY_RECT=0;_NUMERIC_MODE=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_ONLY_RECT=0;_NUMERIC_MODE=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_NUMERIC_MODE=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_NUMERIC_MODE=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_NUMERIC_MODE=0</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OpenMP>GenerateParallelCode</OpenMP>
+      <Parallelization>true</Parallelization>
+      <EnableExpandedLineNumberInfo>false</EnableExpandedLineNumberInfo>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+      <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
+      <VectorizerDiagnosticLevel>Default</VectorizerDiagnosticLevel>
+      <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
+      <GenerateAlternateCodePaths>None</GenerateAlternateCodePaths>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <OpenMPSupport>true</OpenMPSupport>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <Optimization>Full</Optimization>
+      <AdditionalOptions>
+      </AdditionalOptions>
+      <PreprocessorDefinitions>_NUMERIC_MODE=0</PreprocessorDefinitions>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <UseMSVC>true</UseMSVC>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-64\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <UseMSVC>true</UseMSVC>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <OpenMPSupport>false</OpenMPSupport>
+      <AdditionalIncludeDirectories>$(SolutionDir)windep\netCDF4-64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <UseProcessorExtensions>HOST</UseProcessorExtensions>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)windep\netCDF4-32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>netcdf.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="boundary.cpp" />
+    <ClCompile Include="chkpnt.cpp" />
+    <ClCompile Include="ch_flow.cpp" />
+    <ClCompile Include="fp_acc.cpp" />
+    <ClCompile Include="fp_flow.cpp" />
+    <ClCompile Include="fp_trent.cpp" />
+    <ClCompile Include="infevap.cpp" />
+    <ClCompile Include="input.cpp" />
+    <ClCompile Include="iterateq.cpp" />
+    <ClCompile Include="lisflood.cpp" />
+    <ClCompile Include="lisflood2\DataTypes.cpp" />
+    <ClCompile Include="lisflood2\file_tool.cpp" />
+    <ClCompile Include="lisflood2\lisflood_processing.cpp" />
+    <ClCompile Include="lisflood2\sgm_fast.cpp" />
+    <ClCompile Include="lisflood2\lis2_output.cpp" />
+    <ClCompile Include="lisflood2\windows_ext.cpp" />
+    <ClCompile Include="output.cpp" />
+    <ClCompile Include="pars.cpp" />
+    <ClCompile Include="por_flow.cpp" />
+    <ClCompile Include="sgc.cpp" />
+    <ClCompile Include="rain/rain.cpp" />
+    <ClCompile Include="swe\boundary.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\dg2.cpp" />
+    <ClCompile Include="swe\dg2\dg2_output.cpp" />
+    <ClCompile Include="swe\dg2\fields.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\dg2\friction.cpp" />
+    <ClCompile Include="swe\dg2\modifiedvars.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\dg2\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\dg2\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\dg2\slope_limiter.cpp" />
+    <ClCompile Include="swe\fields.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\flux.cpp" />
+    <ClCompile Include="swe\fv1.cpp" />
+    <ClCompile Include="swe\fv1\modifiedvars.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\fv1\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\fv1\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\hll.cpp" />
+    <ClCompile Include="swe\input.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\output.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_double_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release_float_all_channel|x64'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|Win32'">$(IntDir)\swe\</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='ReleaseFloat_win32|x64'">$(IntDir)\swe\</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="swe\stats.cpp" />
+    <ClCompile Include="tests.cpp" />
+    <ClCompile Include="util.cpp" />
+    <ClCompile Include="utility.cpp" />
+    <ClCompile Include="weir_flow.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="lisflood.h" />
+    <ClInclude Include="lisflood2\DataTypes.h" />
+    <ClInclude Include="lisflood2\file_tool.h" />
+    <ClInclude Include="lisflood2\lis2_output.h" />
+    <ClInclude Include="lisflood2\lisflood2.h" />
+    <ClInclude Include="lisflood2\lisflood_processing.h" />
+    <ClInclude Include="lisflood2\sgm_fast.h" />
+    <ClInclude Include="lisflood2\windows_ext.h" />
+    <ClInclude Include="sgc.h" />
+    <ClInclude Include="rain/rain.h" />
+    <ClInclude Include="swe\boundary.h" />
+    <ClInclude Include="swe\dg2.h" />
+    <ClInclude Include="swe\dg2\dg2_output.h" />
+    <ClInclude Include="swe\dg2\fields.h" />
+    <ClInclude Include="swe\dg2\friction.h" />
+    <ClInclude Include="swe\dg2\modifiedvars.h" />
+    <ClInclude Include="swe\dg2\slope_limiter.h" />
+    <ClInclude Include="swe\fields.h" />
+    <ClInclude Include="swe\flux.h" />
+    <ClInclude Include="swe\fv1.h" />
+    <ClInclude Include="swe\fv1\modifiedvars.h" />
+    <ClInclude Include="swe\hll.h" />
+    <ClInclude Include="swe\input.h" />
+    <ClInclude Include="swe\output.h" />
+    <ClInclude Include="swe\stats.h" />
+    <ClInclude Include="utility.h" />
+    <ClInclude Include="VersionHistory.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

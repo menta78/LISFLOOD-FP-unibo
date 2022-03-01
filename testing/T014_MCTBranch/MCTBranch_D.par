@@ -1,0 +1,25 @@
+# Branching channel test - Fine
+# Diffusive solver
+#
+# Chris Sampson 12/01/2011
+#
+DEMfile         MCTBranch_dem.ascii
+multiriverfile	test.rivers
+resroot         MCTBranch_D
+dirroot         MCTBranch_results_D
+sim_time        15000.0
+initial_tstep   5.0
+massint         10.0
+saveint         15000.0
+fpfric          0.035
+overpass        15000.0
+diffusive
+elevoff
+depthoff
+profiles
+#debug
+startq
+adaptoff
+#ch_start_h	    0.65
+chainageoff
+

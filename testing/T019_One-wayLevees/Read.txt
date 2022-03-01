@@ -1,0 +1,10 @@
+*N Quinn. One-way levees*
+
+This tests the simple 'levee' addition to LISFLOOD which allows the user to increase the bankfull depth based on a grid of heights (m) that will be added to the normal calculation of SGCbfH.
+Key word in the par file = SGClevee
+Then specify the file - e.g. levee.asc
+
+Note - this only works one way presently. Water will still flow into a cell containing a subgrid channel as normal, so this is NOT a true levee.
+Still, this may be a better alternative to raising the DEM of a whole cell to increase SGCbfH in coastal zones (where increasing the depth is not an option) in some situations.
+
+The test case demonstrates the difference between the 'no levees' and 'with levees' solutions in a simple idealised situation.

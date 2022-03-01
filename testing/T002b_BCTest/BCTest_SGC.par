@@ -1,0 +1,25 @@
+# Simple grid only test case of NSWE grid boundaries
+# uses a point source in the centre of a cross of channels etched into the dem
+# no 1D river channel.
+#
+# Mark Trigg 1/7/2008
+#
+# version 2 - MT 24/7/2008 - added stage file to test location of output is correct
+#  version 3 - Toby Dunne 12/11/2014 non-symmetrical boundaries, detect indexing errors.
+#
+DEMfile                  BCTest_dtm.ascii
+resroot                  BCTest_SGC
+dirroot			 BCTest_SGC
+sim_time		       100.0
+initial_tstep            1
+massint                  1
+saveint                  1.0
+fpfric			 0.06
+bcifile                  BCTest.bci
+adaptoff
+stagefile		 BCTest.stage
+qoutput
+gaugefile	BCTest.gauge
+SGCwidth       BCTest_SGC_width.ascii
+SGCbank		  BCTest_SGC_bank.ascii
+SGCbed        BCTest_SGC_bed.ascii

@@ -1,0 +1,20 @@
+#
+# Toby Dunne 07/10/2014
+# Single point source
+#
+#
+DEMfile                  PSTest_dem.ascii
+resroot                  PSTest
+dirroot			 ResPSTest_HFIX_SGC
+sim_time		       50.0
+initial_tstep            1
+massint                  1.0
+saveint                  1.0
+fpfric			 0.06
+bcifile                  PSTest_HFIX_SGC_below.bci
+adaptoff
+stagefile		 PSTest.stage
+SGCwidth       PSTest_SGC_width.ascii
+SGCbank		  PSTest_SGC_bank.ascii
+SGCbed        PSTest_SGC_bed.ascii
+qoutput

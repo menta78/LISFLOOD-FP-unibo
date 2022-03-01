@@ -1,0 +1,28 @@
+12
+0	0
+20	0
+25	5
+29	9
+45	5
+5	25	
+25	25
+45	25
+5	45
+25	45
+45	45
+49	49
+#
+#
+# pnt
+# 1	bottom left corner cell, coords. bottom corner of cell - 20m
+# 2	3nd cell left from corner ie mid point coords. bottom corner of cell - 10m elev
+# 3	same mid bottom cell as 1 but defined at centre of cell - 10m elev
+# 4	same mid bottom cell as 1 but defined at top corner of cell - 10m elev
+# 5	far right bottom row, coords. centre cell - 20m elev
+# 6	far left 3rd row up, coords. centre cell - 10m elev
+# 7	mid mid, coords. centre cell - 10m elev
+# 8	far right 3rd row, coords. centre cell - 10m elev
+# 9	far left top row, coords. centre cell - 20m elev
+# 10	mid cell top row, coords. centre cell - 10m elev
+# 11	far right top row, coords. centre cell - 20m elev
+# 12	far right top row, coords. top right - 20m elev

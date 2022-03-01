@@ -1,0 +1,21 @@
+# uber test model parameter file with 4 SG channels in E,W,N,S directions 
+# and a bridge and weir on each channel
+# 
+DEMfile         uber_DEM.asc
+resroot         res
+dirroot          results_uber_SS
+sim_time       100000
+initial_tstep   100.0
+massint         3600
+saveint         10000.0
+fpfric            0.02
+bcifile           uber_BC_SS.bci
+weirfile        uber_bridge.weir
+drycheckoff
+acceleration
+elevoff
+SGCp              0.78
+SGCr		    0.966488
+SGCn             0.02
+SGCwidth       uber_width.asc
+SGCbank        uber_DEM.asc

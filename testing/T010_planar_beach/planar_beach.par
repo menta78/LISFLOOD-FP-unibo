@@ -1,0 +1,16 @@
+DEMfile                  planar_beach.dem.ascii
+resroot                  res
+dirroot			 res_pb
+sim_time		 5000.0
+initial_tstep            1.0
+massint                  100.0
+saveint                  500.0
+fpfric			 0.06
+bcifile                  planar_beach.bci
+bdyfile                  planar_beach.bdy
+#elevoff
+#depthoff
+#adaptoff
+acceleration
+
+

@@ -1,0 +1,20 @@
+# Toy model parameter file
+DEMfile         DEM_MT_y.asc
+resroot         res_y
+dirroot          results_SGC_Weir_y
+sim_time       5440500
+initial_tstep   100.0
+massint         3600
+saveint         360000.0
+fpfric            0.04
+bcifile           inflow_y.bci
+bdyfile          inflow_SGC2.bdy.txt
+stagefile	   locations.stage
+weirfile          weir_y.weir
+drycheckoff
+acceleration
+SGC              0.78
+SGCr		    0.12
+SGCwidth       width_y.asc
+SGCbank        DEM_MT_y.asc
+qoutput

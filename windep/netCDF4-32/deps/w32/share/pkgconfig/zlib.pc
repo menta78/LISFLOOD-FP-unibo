@@ -1,0 +1,13 @@
+prefix=c:/share/w32
+exec_prefix=c:/share/w32
+libdir=c:/share/w32/lib
+sharedlibdir=c:/share/w32/lib
+includedir=c:/share/w32/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.2.8
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

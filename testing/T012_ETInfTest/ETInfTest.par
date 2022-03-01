@@ -1,0 +1,21 @@
+# Simple grid only test case of Et and Infiltration
+# uses starting water depth which should dry completely over the 100 day run
+# no 1D river channel.
+#
+# Mark Trigg 12/3/2009
+#
+#
+DEMfile                  ETInfTest_dtm.ascii
+resroot                  ETInfTest
+dirroot			 ETInfTestRes
+sim_time		 8640000.0
+initial_tstep            86400.0
+massint                  86400.0
+saveint                  4320000.0
+fpfric			 0.06
+startfile                ETInfTest_start.ascii
+adaptoff
+evaporation		 ETInfTest_evap.dat
+infiltration		 0.00000001
+elevoff
+

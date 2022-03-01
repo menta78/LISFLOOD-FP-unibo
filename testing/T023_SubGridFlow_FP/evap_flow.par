@@ -1,0 +1,17 @@
+DEMfile                  dem.asc
+resroot                  res
+dirroot                   results
+sim_time                 1000.0
+initial_tstep            10.0
+massint                  1.0
+saveint                  1.0
+startfile                  start.asc
+startelev
+SGCwidth               width.asc
+SGCbank                 banks.asc
+SGCbed                 bed.asc
+evaporation               Evap_rate.evap
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+qoutput

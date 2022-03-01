@@ -1,0 +1,19 @@
+DEMfile                  route_hole_dem.asc
+resroot                  res_route
+dirroot                   results_route
+sim_time                 500.0
+initial_tstep            1.0
+massint                  1.0
+saveint                  1.0
+startfile                  route_hole_start.asc
+startelev
+SGCwidth               route_zero_width.asc
+SGCbank                 route_banks.asc
+routesfthresh		0.1
+#routefall               route_rate.asc
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+#depththresh	0.1
+#binary_out
+qoutput

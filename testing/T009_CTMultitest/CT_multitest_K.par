@@ -1,0 +1,28 @@
+# Single channel multiple parameters test. 
+# Varying width, mannings, slope and d/s tailwater and an additional inflow. 
+# Kinematic solver.
+#
+# Mark Trigg 1/7/2008
+#
+DEMfile          CT_Fine_dem.ascii
+riverfile        CT_multitest.river
+resroot          CT_Multitest_K
+dirroot          CT_Multitest_K_results
+sim_time         20000.0
+initial_tstep    100.0
+massint          10.0
+saveint          100.0
+fpfric           0.03
+overpass         20000.0
+#diffusive
+elevoff
+depthoff
+ch_start_h	     0.71
+#debug
+adaptoff
+#startq
+
+
+
+
+

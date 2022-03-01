@@ -1,0 +1,20 @@
+# Test case covers water flowing and at the same time evaporating
+# Water is evaporating from flood plain and the sub grid
+# Test case also covers sub grid flow spilling onto the flood plain
+DEMfile                  dem.asc
+resroot                  res
+dirroot                   results
+sim_time                 1000.0
+initial_tstep            10.0
+massint                  1.0
+saveint                  1.0
+startfile                  start.asc
+startelev
+SGCwidth               width.asc
+SGCbank                 banks.asc
+SGCbed                 bed.asc
+evaporation               Evap_rate.evap
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+qoutput

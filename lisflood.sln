@@ -1,0 +1,74 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lisflood", "lisflood.vcxproj", "{9E49EBA1-7742-4987-BB55-C07BDF06808E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release_double_all_channel|Win32 = Release_double_all_channel|Win32
+		Release_double_all_channel|x64 = Release_double_all_channel|x64
+		Release_double_all_channel|x86 = Release_double_all_channel|x86
+		Release_double|Win32 = Release_double|Win32
+		Release_double|x64 = Release_double|x64
+		Release_double|x86 = Release_double|x86
+		Release_float_all_channel|Win32 = Release_float_all_channel|Win32
+		Release_float_all_channel|x64 = Release_float_all_channel|x64
+		Release_float_all_channel|x86 = Release_float_all_channel|x86
+		Release_float|Win32 = Release_float|Win32
+		Release_float|x64 = Release_float|x64
+		Release_float|x86 = Release_float|x86
+		ReleaseFloat_win32|Win32 = ReleaseFloat_win32|Win32
+		ReleaseFloat_win32|x64 = ReleaseFloat_win32|x64
+		ReleaseFloat_win32|x86 = ReleaseFloat_win32|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|Win32.Build.0 = Debug|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|x64.ActiveCfg = Debug|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|x64.Build.0 = Debug|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Debug|x86.Build.0 = Debug|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|Win32.ActiveCfg = Release_double_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|Win32.Build.0 = Release_double_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|x64.ActiveCfg = Release_double_all_channel|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|x64.Build.0 = Release_double_all_channel|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|x86.ActiveCfg = Release_double_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double_all_channel|x86.Build.0 = Release_double_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|Win32.ActiveCfg = Release_double|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|Win32.Build.0 = Release_double|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|x64.ActiveCfg = Release_double|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|x64.Build.0 = Release_double|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|x86.ActiveCfg = Release_double|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_double|x86.Build.0 = Release_double|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|Win32.ActiveCfg = Release_float_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|Win32.Build.0 = Release_float_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|x64.ActiveCfg = Release_float_all_channel|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|x64.Build.0 = Release_float_all_channel|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|x86.ActiveCfg = Release_float_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float_all_channel|x86.Build.0 = Release_float_all_channel|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|Win32.ActiveCfg = Release_float|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|Win32.Build.0 = Release_float|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|x64.ActiveCfg = Release_float|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|x64.Build.0 = Release_float|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|x86.ActiveCfg = Release_float|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.Release_float|x86.Build.0 = Release_float|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|Win32.ActiveCfg = ReleaseFloat_win32|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|Win32.Build.0 = ReleaseFloat_win32|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|x64.ActiveCfg = ReleaseFloat_win32|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|x64.Build.0 = ReleaseFloat_win32|x64
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|x86.ActiveCfg = ReleaseFloat_win32|Win32
+		{9E49EBA1-7742-4987-BB55-C07BDF06808E}.ReleaseFloat_win32|x86.Build.0 = ReleaseFloat_win32|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(SubversionScc) = preSolution
+		Svn-Managed = True
+		Manager = AnkhSVN - Subversion Support for Visual Studio
+	EndGlobalSection
+EndGlobal

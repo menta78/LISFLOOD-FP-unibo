@@ -1,0 +1,19 @@
+# Wide channel test case based on MacDonalds test case 1 (1997)
+# flow is in the Diffusive zone
+# channel solver is kinematic
+#
+# Mark Trigg 1/7/2008
+#
+DEMfile                  CTTests_dem.ascii
+riverfile                CTDiffZone_K.river
+resroot                  CTDZ_K
+dirroot			 CTDZ_K_results
+sim_time			 2000.0
+initial_tstep            1.0
+massint                  10.0
+saveint                  100.0
+fpfric			 0.03
+overpass			 2000.0
+#diffusive
+elevoff
+depthoff

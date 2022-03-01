@@ -1,0 +1,21 @@
+DEMfile                  route_line_x_dem.asc
+resroot                  res_routex
+dirroot                   results_routex
+sim_time                 50.0
+initial_tstep            2.0
+massint                  1.0
+saveint                  1.0
+startfile                  route_line_x_start.asc
+startelev
+SGCwidth               route_line_x_zero_width.asc
+SGCbank                 route_line_x_banks.asc
+routesfthresh		0.08
+routingspeed		1.0
+#dist_routing
+#routefall               route_rate.asc
+#mint_hk
+SGCr                    0.125
+SGCn                    0.045
+#depththresh	0.1
+#binary_out
+qoutput

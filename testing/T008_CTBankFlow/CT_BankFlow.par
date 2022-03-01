@@ -1,0 +1,24 @@
+# single channel with another dem channel crossing at 90degrees 
+# - dem channel has point source which is intercepted by river channel 
+# - tests bank flows into channel.
+#
+# Mark Trigg 1/7/2008
+#
+DEMfile                  CT_BankFlow_dem.ascii
+riverfile                CT_BankFlow.river
+bcifile			 CT_BankFlow.bci
+resroot                  CT_BankFlow
+dirroot			 CT_BankFlow_results
+sim_time			 100000.0
+initial_tstep            100.0
+massint                  10.0
+saveint                  10000.0
+fpfric			 0.03
+overpass			 100000.0
+diffusive
+elevoff
+depthoff
+ch_start_h			0.7
+#adaptoff
+#debug
+chainageoff

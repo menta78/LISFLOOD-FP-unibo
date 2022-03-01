@@ -1,0 +1,5 @@
+# simple evap - mm per day (want to have 1m per second for test case)
+3	seconds
+0	0
+0	170
+86400	171

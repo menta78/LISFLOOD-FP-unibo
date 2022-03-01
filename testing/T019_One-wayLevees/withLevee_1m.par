@@ -1,0 +1,15 @@
+DEMfile                 dem.asc
+resroot                  withlev_1m
+dirroot                 withlev_1m
+sim_time		 21600.0
+initial_tstep            3.0
+massint                  300.0
+saveint                  60.0
+fpfric			 0.035
+bcifile                  test.bci
+bdyfile			 test.bdy
+acceleration
+SGCwidth	width.width
+SGCbed	bed.asc
+SGCbank	dem.asc
+SGClevee	levee_1m.asc

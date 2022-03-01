@@ -1,0 +1,22 @@
+# MacDonalds test case 1 (1997)
+# channel is relatively narrow, highlighting error due 
+# to wide channel approximation in lisflood
+# flow is in the Kinematic zone
+# channel solver is Diffusive
+#
+# Mark Trigg 1/7/2008
+#
+DEMfile                  CTTests_dem.ascii
+riverfile                CTAna_D.river
+resroot                  CTA_D
+dirroot			 CTA_D_results
+sim_time			 1000.0
+initial_tstep            1.0
+massint                  10.0
+saveint                  100.0
+fpfric			 0.03
+overpass			 1000.0
+diffusive
+elevoff
+depthoff
+ch_start_h			1.0

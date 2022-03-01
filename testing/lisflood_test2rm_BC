@@ -1,0 +1,75 @@
+#!/bin/tcsh
+#
+# This removes ALL folders and files created by lisflood_test2!
+# Use with care
+
+setenv pwdex "${PWD}"
+setenv myex "${PWD}/lisflood_lin"
+setenv myexold "${PWD}/lisflood_lin_old"
+
+cd $pwdex/T001_buscot
+rm -f -r test_results_D 
+rm -f -r results_D
+rm -f -r test_results 
+rm -f -r results
+
+cd $pwdex/T002_BCTest
+rm -f -r test_BCTestRes 
+rm -f -r BCTestRes
+
+cd $pwdex/T003_CTAna
+rm -f -r test_CTA_D_results 
+rm -f -r CTA_D_results
+rm -f -r test_CTA_K_results 
+rm -f -r CTA_K_results
+
+cd $pwdex/T004_CTDiffZone
+rm -f -r test_CTDZ_K_results 
+rm -f -r CTDZ_K_results
+rm -f -r test_CTDZ_D_results 
+rm -f -r CTDZ_D_results
+
+cd $pwdex/T005_CTFullZone
+rm -f -r test_CTFZ_D_results 
+rm -f -r CTFZ_D_results
+rm -f -r test_CTFZ_K_results 
+rm -f -r CTFZ_K_results
+
+cd $pwdex/T006_CTKinZone
+rm -f -r test_CTKZ_D_results 
+rm -f -r CTKZ_D_results
+rm -f -r test_CTKZ_K_results 
+rm -f -r CTKZ_K_results
+
+cd $pwdex/T007_CTBranchFine
+
+rm -f -r test_CTBrFine_results_K 
+rm -f -r CTBrFine_results_K
+rm -f -r test_CTBrFine_results_D 
+rm -f -r CTBrFine_results_D
+
+cd $pwdex/T008_CTBankFlow
+rm -f -r test_CT_BankFlow_results 
+rm -f -r CT_BankFlow_results
+
+cd $pwdex/T009_CTMultitest
+rm -f -r test_CT_Multitest_D_results 
+rm -f -r CT_Multitest_D_results
+rm -f -r test_CT_Multitest_K_results 
+rm -f -r CT_Multitest_K_results
+
+cd $pwdex/T010_planar_beach
+rm -f -r test_res_pb 
+rm -f -r res_pb
+
+cd $pwdex/T011_CTDecouple
+rm -f -r test_CT_Decouple_D_results 
+rm -f -r CT_Decouple_D_results
+rm -f -r test_CT_Decouple_K_results 
+rm -f -r CT_Decouple_K_results
+
+cd $pwdex/T012_ETInfTest
+rm -f -r test_ETInfTestRes 
+rm -f -r ETInfTestRes
+
+echo all done
