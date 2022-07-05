@@ -1,0 +1,4 @@
+CXXFLAGS := -std=c++14 -Wall -O0 -g -fopenmp -static -I$(HOME)/include -I/usr/include -D_NUMERIC_MODE=1 -D_NETCDF=0
+LDFLAGS := -g -L$(HOME)/lib
+LDLIBS := -lgomp -lnuma
+
