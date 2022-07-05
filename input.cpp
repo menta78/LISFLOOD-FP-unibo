@@ -1923,6 +1923,8 @@ void LoadBCVar(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr
 	numBCs = 2 * Parptr->xsz + 2 * Parptr->ysz;
 	BCptr->BC_TimeSeries = new TimeSeries*[numBCs];
 
+	BCptr->allTimeSeries.reserve(numBCs + BCptr->numPS);
+
 	for (i = 0; i < numBCs; i++)
 	{
 		BCptr->BC_TimeSeries[i] = NULL;
