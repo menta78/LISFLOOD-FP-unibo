@@ -421,7 +421,6 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 #endif
-
 	LoadDEM(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
 	LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
 	// Dammask needs to be read after LoadDEM and before SGC FEOL
@@ -474,6 +473,7 @@ int main(int argc, char *argv[])
 	LoadSGCManningsn(Fnameptr, Parptr, Arrptr, verbosemode);
 	LoadPor(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
 	LoadWeir(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
+	//LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
 	if (SimStates.calc_evap == ON) LoadEvap(Fnameptr, Arrptr, verbosemode);
 	if (SimStates.rainfall == ON) LoadRain(Fnameptr, Arrptr, verbosemode);
 	if (SimStates.rainfallmask == ON) LoadRainmask(Fnameptr, Parptr, Arrptr, Statesptr, verbosemode);

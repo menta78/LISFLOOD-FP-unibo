@@ -326,16 +326,12 @@ struct Arrays{
 	TimeSeries * rain;
 
 	int protection_count;
-        NUMERIC_TYPE *Protection_pos;
-        NUMERIC_TYPE *Protection_ph;
-        NUMERIC_TYPE *Protection_pfh;
-        NUMERIC_TYPE *Protection_pf;
-        NUMERIC_TYPE *Protection_pbounds;
-        NUMERIC_TYPE *Protection_PROTEC;
-	NUMERIC_TYPE *Protection_x;
-        NUMERIC_TYPE *Protection_y;
-        NUMERIC_TYPE *Protection_posx;
-        NUMERIC_TYPE *Protection_posy;
+	NUMERIC_TYPE *Protection_pos;
+	NUMERIC_TYPE *Protection_ph;
+	NUMERIC_TYPE *Protection_pfh;
+	NUMERIC_TYPE *Protection_pf;
+	NUMERIC_TYPE *Protection_pbounds;
+	NUMERIC_TYPE *Protection_PROTEC;
 
 	int *ChanMask;
 	int *SegMask;
@@ -856,7 +852,7 @@ void ReadParamFile(char *, Fnames *, States *, Pars *, Solver*, int);
 void CheckParams(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Solver *Solverptr, int verbose);
 void LoadDEM(Fnames *, States *, Pars *, Arrays *, const int verbose);
 FILE* LoadDomainGeometry(const char* filename, Pars *Parptr, const int verbose, NUMERIC_TYPE& no_data_value);
-void LoadDEMData(Pars*, NUMERIC_TYPE *DEM, FILE *fp, NUMERIC_TYPE file_nodata_value);
+void LoadDEMData(Pars*, Arrays *, NUMERIC_TYPE *DEM, FILE *fp, NUMERIC_TYPE file_nodata_ivalue);
 void LoadProtection(Fnames *, States *, Pars *, Arrays *, const int verbose);
 void LoadManningsn(Fnames *, Pars *, Arrays *, const int verbose);
 void LoadDistInfil(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, const int verbose);
@@ -869,6 +865,7 @@ void LoadStartQ2D(Fnames*, Pars*, Arrays*, const int verbose);
 void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, const int verbose);
 void LoadBCVar(Fnames *, States *, Pars *, BoundCs *, ChannelSegmentType *, Arrays *, vector<ChannelSegmentType> *, const int verbose);
 void LoadWeir(Fnames *, States *, Pars *, Arrays *, const int verbose);
+//void LoadProtection(Fnames *, States *, Pars *, Arrays *, const int verbose);
 void LoadStages(Fnames *, States *, Pars *, Stage *, const int verbose);
 void LoadGauges(Fnames *, States *, Pars *, Stage *, const int verbose);
 void LoadPor(Fnames *, States *, Pars *, Arrays *, const int verbose);
@@ -885,7 +882,7 @@ FILE* fopen_or_die(const char * filename, const char* mode, const char* message 
 // LISFLOOD Solution prototypes - iterateq.cpp
 void IterateQ(Fnames *, Files *, States *, Pars *, Solver*, BoundCs *, Stage *, ChannelSegmentType *, Arrays *, SGCprams *, vector<int> *, int *, vector<ChannelSegmentType> *, const int verbose);
 void UpdateH(States *, Pars *, Solver *, BoundCs *, ChannelSegmentType *, Arrays *);
-void UpdateDEM(Fnames *, States *, Pars *, Arrays *, Solver *);
+//void UpdateDEM(Fnames *, States *, Pars *, Arrays *);
 
 // Floodplain prototypes - fp_flow.cpp
 void FloodplainQ(States *, Pars *, Solver *, Arrays *, SGCprams *);

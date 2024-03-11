@@ -325,18 +325,6 @@ struct Arrays{
 	TimeSeries * evap;
 	TimeSeries * rain;
 
-	int protection_count;
-        NUMERIC_TYPE *Protection_pos;
-        NUMERIC_TYPE *Protection_ph;
-        NUMERIC_TYPE *Protection_pfh;
-        NUMERIC_TYPE *Protection_pf;
-        NUMERIC_TYPE *Protection_pbounds;
-        NUMERIC_TYPE *Protection_PROTEC;
-	NUMERIC_TYPE *Protection_x;
-        NUMERIC_TYPE *Protection_y;
-        NUMERIC_TYPE *Protection_posx;
-        NUMERIC_TYPE *Protection_posy;
-
 	int *ChanMask;
 	int *SegMask;
 
@@ -405,7 +393,6 @@ struct Fnames{
 	char bcifilename[256];
 	char bdyfilename[256];
 	char weirfilename[256];
-	char protectionfilename[256];
 	char opfilename[256];
 	char stagefilename[256];
 	char ascheaderfilename[256];
@@ -611,7 +598,6 @@ struct States{
 	int profileoutput;
 	int porosity;
 	int weirs;
-	int protections;
 	int save_Ts;   // MT: added flag to output adaptive timestep
 	int save_QLs;  // MT: added flag to output Qlimits
 	int diffusive; // MT: added flag to indicate wish to use diffusive channel solver instead of default kinematic
@@ -857,7 +843,6 @@ void CheckParams(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Solver *Solv
 void LoadDEM(Fnames *, States *, Pars *, Arrays *, const int verbose);
 FILE* LoadDomainGeometry(const char* filename, Pars *Parptr, const int verbose, NUMERIC_TYPE& no_data_value);
 void LoadDEMData(Pars*, NUMERIC_TYPE *DEM, FILE *fp, NUMERIC_TYPE file_nodata_value);
-void LoadProtection(Fnames *, States *, Pars *, Arrays *, const int verbose);
 void LoadManningsn(Fnames *, Pars *, Arrays *, const int verbose);
 void LoadDistInfil(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, const int verbose);
 void LoadSGCManningsn(Fnames *, Pars *, Arrays *, const int verbose);
@@ -885,7 +870,6 @@ FILE* fopen_or_die(const char * filename, const char* mode, const char* message 
 // LISFLOOD Solution prototypes - iterateq.cpp
 void IterateQ(Fnames *, Files *, States *, Pars *, Solver*, BoundCs *, Stage *, ChannelSegmentType *, Arrays *, SGCprams *, vector<int> *, int *, vector<ChannelSegmentType> *, const int verbose);
 void UpdateH(States *, Pars *, Solver *, BoundCs *, ChannelSegmentType *, Arrays *);
-void UpdateDEM(Fnames *, States *, Pars *, Arrays *, Solver *);
 
 // Floodplain prototypes - fp_flow.cpp
 void FloodplainQ(States *, Pars *, Solver *, Arrays *, SGCprams *);

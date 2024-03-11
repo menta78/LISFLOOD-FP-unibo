@@ -159,7 +159,7 @@ void LoadWeir(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr,
 		}
 
 		if (sscanf(buff, "%" NUM_FMT" %" NUM_FMT" %s %" NUM_FMT" %" NUM_FMT" %" NUM_FMT" %" NUM_FMT"",
-			&x, &y, char_tmp, Arrptr->Weir_Cd + i, Arrptr->Weir_hc + i, Arrptr->Weir_m + i, Arrptr->Weir_w + i) != 7)
+			&x, &y, Arrptr->Weir_Cd + i, Arrptr->Weir_hc + i, Arrptr->Weir_m + i, Arrptr->Weir_w + i) != 7)
 			Arrptr->Weir_w[i] = Parptr->dx;
 
 		xi = (int)((x - Parptr->blx) / Parptr->dx);
@@ -306,6 +306,8 @@ void LoadWeir(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr,
 	return;
 }
 
+
+//-----------------------------------------------------------------------------
 // LOAD PROTECTION DATA
 void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, const int verbose)
 {
@@ -317,8 +319,8 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
         int nw, i, xi, yi, p0, p1, posi;
         NUMERIC_TYPE x, y, z0, z1;
         char char_tmp[10], buff[LINE_BUFFER_LEN];
-
-        fp = fopen_or_die(Fnameptr->protectionfilename, "r", "Loading protection information\n", verbose);
+	
+	fp = fopen_or_die(Fnameptr->protectionfilename, "r", "Loading protection information\n", verbose);
 
         Statesptr->protections = ON;
 
@@ -326,99 +328,100 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
         sscanf(buff, "%i %" NUM_FMT"", &nw);
 
         Arrptr->protection_count = nw;
-        Arrptr->Protection_pos = memory_allocate_numeric_legacy(nw);
-	Arrptr->Protection_x = memory_allocate_numeric_legacy(nw);
-	Arrptr->Protection_y = memory_allocate_numeric_legacy(nw);
-	Arrptr->Protection_posx = memory_allocate_numeric_legacy(nw);
-	Arrptr->Protection_posy = memory_allocate_numeric_legacy(nw);
-
+	Arrptr->Protection_pos = memory_allocate_numeric_legacy(nw);
 
         Arrptr->Protection_ph = memory_allocate_numeric_legacy(nw);
         Arrptr->Protection_pfh = memory_allocate_numeric_legacy(nw);
-        Arrptr->Protection_pf = memory_allocate_numeric_legacy(nw);
+	Arrptr->Protection_pf = memory_allocate_numeric_legacy(nw);
 	Arrptr->Protection_pbounds = memory_allocate_numeric_legacy(nw*8);
-        Arrptr->Protection_PROTEC = memory_allocate_numeric_legacy((Parptr->xsz + 1) * (Parptr->ysz + 1));
+        Arrptr->Protection_PROTEC = memory_allocate_numeric_legacy((Parptr->xsz + 1) * (Parptr->ysz + 1));   
 
 
-        //Arrptr->Protection_Identx = new int[(Parptr->xsz + 1)*(Parptr->ysz + 1)];
+	//Arrptr->Protection_Identx = new int[(Parptr->xsz + 1)*(Parptr->ysz + 1)];
         //Arrptr->Protection_PROTEC = new int[(Parptr->xsz + 1)*(Parptr->ysz + 1)];
 
         //SetArrayValue(Arrptr->Protection_PROTEC,0 , (Parptr->xsz + 1) * (Parptr->ysz + 1));
-
-        for (int j=0; j<Parptr->ysz; j++)
+	
+	for (int j=0; j<Parptr->ysz; j++)
         {
                 for (int i=0; i<Parptr->xsz; i++)
                 {
-                        Arrptr->Protection_PROTEC[i + j*Parptr->xsz] = 0;
+			Arrptr->Protection_PROTEC[i + j*Parptr->xsz] = 0;
                 }
         }
 
         for (i = 0; i < nw; i++)
         {
-                Arrptr->Protection_pf[i]=0;
+		Arrptr->Protection_pf[i]=0;
                 if (!fgets(buff, LINE_BUFFER_LEN, fp))
                 {
                         printf("Protection file expects more lines\n");
                         exit(0);
                 }
-
-
-
-
-
-               sscanf(buff, "%" NUM_FMT" %" NUM_FMT" %" NUM_FMT" %" NUM_FMT"",
-                                &x, &y, Arrptr->Protection_ph + i, Arrptr->Protection_pfh + i);
+ 
+                 
+	       sscanf(buff, "%" NUM_FMT" %" NUM_FMT" %" NUM_FMT" %" NUM_FMT"",
+				&x, &y, Arrptr->Protection_ph + i, Arrptr->Protection_pfh + i);	      
 
                 xi = (int)((x - Parptr->blx) / Parptr->dx);
-                yi = (int)((Parptr->tly - Parptr->dy - y) / Parptr->dy);
-
-                if (xi < 0 || xi >= Parptr->xsz ||
+                yi = (int)((Parptr->tly - y) / Parptr->dy);
+		
+		if (xi < 0 || xi >= Parptr->xsz ||
                         yi < 0 || yi >= Parptr->ysz)
                 {
                         printf("Invalid protection coordinate: %d (%d,%d)\n", i, xi, yi);
                         exit(0);
                 }
-                else if (Arrptr->Protection_ph[i]<=0)
-                {
-                        printf("Invalid protection Height: %d (%" NUM_FMT")\n", i,Arrptr->Protection_ph[i]);
-                        exit(0);
-                }
-                else if (Arrptr->Protection_pfh[i]<=0)
+		else if (Arrptr->Protection_ph[i]<=0)
+		{
+			printf("Invalid protection Height: %d (%" NUM_FMT")\n", i,Arrptr->Protection_ph[i]);
+			exit(0);
+		}
+		else if (Arrptr->Protection_pfh[i]<=0)
                 {
                         printf("Invalid protection Failure Height: %d (%" NUM_FMT")\n", i,Arrptr->Protection_pfh[i]);
                         exit(0);
                 }
 
 		posi=(int)(xi + yi*Parptr->xsz);
-                Arrptr->Protection_PROTEC[posi]=Arrptr->Protection_ph[i];
-                if(Arrptr->Protection_PROTEC[posi]>0)
+		Arrptr->Protection_PROTEC[posi]=Arrptr->Protection_ph[i];
+		if(Arrptr->Protection_PROTEC[posi]>0)
                         {
-                                printf("Protection %d at point [%" NUM_FMT",%" NUM_FMT"] (%d,%d)\n", i, x, y, xi, yi);
-                                Arrptr->DEM[posi] = Arrptr->DEM[posi] + Arrptr->Protection_PROTEC[posi];
+                                printf("Protection %d in coordinate: (%d,%d)\n", i, xi, yi);
+				Arrptr->DEM[posi] = Arrptr->DEM[posi] + Arrptr->Protection_PROTEC[posi];
                         }
 
-		Arrptr->Protection_x[i] = x;
-        	Arrptr->Protection_y[i] = y;
-        	Arrptr->Protection_posx[i] = xi;
-        	Arrptr->Protection_posy[i] = yi;
+		Arrptr->Protection_pos[i]=posi;
+		Arrptr->Protection_pbounds[(8*i)]=(int)((xi-1) + (yi-1)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+1]=(int)((xi) + (yi-1)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+2]=(int)((xi+1) + (yi-1)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+3]=(int)((xi-1) + (yi)*Parptr->xsz);
+	 	Arrptr->Protection_pbounds[(8*i)+4]=(int)((xi+1) + (yi)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+5]=(int)((xi-1) + (yi+1)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+6]=(int)((xi) + (yi+1)*Parptr->xsz);
+		Arrptr->Protection_pbounds[(8*i)+7]=(int)((xi+1) + (yi+1)*Parptr->xsz);
+
+	}
 
 
-                Arrptr->Protection_pos[i]=posi;
-                Arrptr->Protection_pbounds[(8*i)]=(int)((xi-1) + (yi-1)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+1]=(int)((xi) + (yi-1)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+2]=(int)((xi+1) + (yi-1)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+3]=(int)((xi-1) + (yi)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+4]=(int)((xi+1) + (yi)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+5]=(int)((xi-1) + (yi+1)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+6]=(int)((xi) + (yi+1)*Parptr->xsz);
-                Arrptr->Protection_pbounds[(8*i)+7]=(int)((xi+1) + (yi+1)*Parptr->xsz);
-        }
+//	for (int j=0; j<Parptr->ysz; j++)
+//        {
+//                for (int i=0; i<Parptr->xsz; i++)
+//                {
+//                        if(Arrptr->Protection_PROTEC[i + j*Parptr->xsz]>0)
+//                        {
+//                                Arrptr->DEM[i + j*Parptr->xsz] = Arrptr->DEM[i + j*Parptr->xsz] + Arrptr->Protection_PROTEC[i + j*Parptr->xsz];
+//                        }
+//                }
+//        }
 
 
         fclose(fp);
-	if (verbose == ON) printf("Done.\n\n");
+
+        if (verbose == ON) printf("Done.\n\n");
         return;
 }
+
 
 //-----------------------------------------------------------------------------
 /* LOAD RIVER CHANNEL NETWORK - CCS
@@ -1545,7 +1548,7 @@ void LoadDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, 
 	for (i = 0; i < Parptr->xsz*Parptr->ysz; i++) Arrptr->ChanMask[i] = -1;
 	for (i = 0; i < Parptr->xsz*Parptr->ysz; i++) Arrptr->SegMask[i] = -1;
 
-	LoadDEMData(Parptr, Arrptr->DEM, fp, no_data_value);
+	LoadDEMData(Parptr, Arrptr, Arrptr->DEM, fp, no_data_value);
 	fclose(fp);
 
 	if (verbose == ON) printf("Done.\n\n");
@@ -1588,11 +1591,13 @@ FILE* LoadDomainGeometry
 void LoadDEMData
 (
 	Pars *Parptr,
+	Arrays *Arrptr,	
 	NUMERIC_TYPE *DEM,
 	FILE *fp,
 	NUMERIC_TYPE file_nodata_value
 )
 {
+	
 	for (int j=0; j<Parptr->ysz; j++)
 	{
 		for (int i=0; i<Parptr->xsz; i++)
@@ -1605,6 +1610,32 @@ void LoadDEMData
 		}
 	}
 }
+
+
+
+//void LoadDEMData
+//(
+//        Pars *Parptr,
+//        NUMERIC_TYPE *DEM,
+//        FILE *fp,
+//        NUMERIC_TYPE file_nodata_value
+//)
+//{
+//        for (int j=0; j<Parptr->ysz; j++)
+//        {
+//                for (int i=0; i<Parptr->xsz; i++)
+//                {
+//                        fscanf(fp, "%" NUM_FMT"", &DEM[i + j*Parptr->xsz]);
+//                        if (AreEqual(DEM[i + j*Parptr->xsz], file_nodata_value))
+//                        {
+//                                DEM[i + j*Parptr->xsz] = Parptr->nodata_elevation;
+//                        }
+//                }
+//        }
+//}
+
+
+
 
 //-----------------------------------------------------------------------------------
 // LOADS FILE GIVING IDENTIFIERS FOR EACH BOUNDARY CELL FROM .bci FILE

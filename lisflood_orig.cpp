@@ -215,7 +215,6 @@ int main(int argc, char *argv[])
 	SimStates.profileoutput = OFF;
 	SimStates.porosity = OFF;
 	SimStates.weirs = OFF;
-	SimStates.protections = OFF;
 	SimStates.save_Ts = OFF;
 	SimStates.save_QLs = OFF;
 	SimStates.startq = OFF;
@@ -423,7 +422,6 @@ int main(int argc, char *argv[])
 #endif
 
 	LoadDEM(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
-	LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
 	// Dammask needs to be read after LoadDEM and before SGC FEOL
 	if (SimStates.DamMode == ON)LoadDamPrams(Fnameptr, Statesptr, Parptr, Damptr, verbosemode); //FEOL
 	Damptr->DamLoss = C(0.0); // To ensure dam loss is zero if no dams for mass balance! FEOL

@@ -161,7 +161,7 @@ void IterateQ(Fnames *Fnameptr, Files *Fptr, States *Statesptr, Pars *Parptr, So
 			// else UpdateH(Statesptr,Parptr,Solverptr,BCptr,ChannelSegments,Arrptr);
 			// change to CalcFPQxRoe and CalcFPQyRoe... now return Q's for UpdateH (JCN)
 			UpdateH(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr);
-			UpdateDEM(Fnameptr, Statesptr, Parptr, Arrptr, Solverptr);
+			//UpdateDEM(Fnameptr, Statesptr, Parptr, Arrptr);
 			if (Statesptr->hazard == ON) UpdateV(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr);
 
 			BoundaryFlux(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr, ChannelSegmentsVecPtr);
@@ -579,80 +579,32 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 	return;
 }
 
-
-void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, Solver *Solverptr)
-{
-        if (strlen(Fnameptr->protectionfilename) == 0)
-                return;
-
-      int p0, p1, p2, p3, p4, p5, p6, p7,ppos;
-      for (int i=0; i<Arrptr->protection_count; i++)
-      {
-        if (Arrptr->Protection_pf[i] == 0)
-              {
-              p0=Arrptr->Protection_pbounds[(8*i)]; //(xi-1) + (yi-1)
-              p1=Arrptr->Protection_pbounds[(8*i)+1]; //(xi) + (yi-1)
-              p2=Arrptr->Protection_pbounds[(8*i)+2]; //(xi+1) + (yi-1)
-              p3=Arrptr->Protection_pbounds[(8*i)+3]; //(xi-1) + (yi)
-              p4=Arrptr->Protection_pbounds[(8*i)+4]; //(xi+1) + (yi)
-              p5=Arrptr->Protection_pbounds[(8*i)+5]; //(xi-1) + (yi+1)
-              p6=Arrptr->Protection_pbounds[(8*i)+6]; //(xi) + (yi+1)
-              p7=Arrptr->Protection_pbounds[(8*i)+7]; //(xi+1) + (yi+1)
-              
-	      if (Arrptr->Protection_posy[i] == 0)
-	      {if (Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
-                      {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
-                              Arrptr->Protection_pf[i] = 1;
-                              ppos= Arrptr->Protection_pos[i];
-                              Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
-                      }
-              }
-
-	      else if (Arrptr->Protection_posy[i] == Parptr->ysz-1)
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i])
-                      {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
-                              Arrptr->Protection_pf[i] = 1;
-                              ppos= Arrptr->Protection_pos[i];
-                              Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
-                      }
-              }
-	      
-	      
-	      else if (Arrptr->Protection_posx[i] == 0)
-	      {if (Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
-                      {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
-                              Arrptr->Protection_pf[i] = 1;
-                              ppos= Arrptr->Protection_pos[i];
-                              Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
-                      }
-                }
-
-
-	      else if (Arrptr->Protection_posx[i] == Parptr->xsz-1)
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i])
-                      {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
-                              Arrptr->Protection_pf[i] = 1;
-                              ppos= Arrptr->Protection_pos[i];
-                              Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
-                      }
-                }
-
-
-
-	      else
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
-                      {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
-			      Arrptr->Protection_pf[i] = 1;
-                              ppos= Arrptr->Protection_pos[i];
-                              Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
-                      }
-		}
-              }
-      }
-      return;
-}
+//void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr)
+//{
+//        if (strlen(Fnameptr->protectionfilename) == 0)
+//                return;
+//	
+//	int p0, p1, p2, p3, p4, p5, p6, p7,ppos;
+//	for (int i=0; i<Arrptr->protection_count; i++)
+//	{
+//        if (Arrptr->Protection_pf[i] == 0)
+//		{	
+//		p0=Arrptr->Protection_pbounds[(8*i)];
+//		p1=Arrptr->Protection_pbounds[(8*i)+1];
+//		p2=Arrptr->Protection_pbounds[(8*i)+1];
+//		p3=Arrptr->Protection_pbounds[(8*i)+1];
+//		p4=Arrptr->Protection_pbounds[(8*i)+1];
+//		p5=Arrptr->Protection_pbounds[(8*i)+1];
+//		p6=Arrptr->Protection_pbounds[(8*i)+1];
+//		p7=Arrptr->Protection_pbounds[(8*i)+1];
+//		if (Arrptr->DEM[p0] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p1] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p2] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p3] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p4] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p5] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p6] >= Arrptr->Protection_pfh[i] || Arrptr->DEM[p7] >= Arrptr->Protection_pfh[i]) 
+//                	{
+//                        	Arrptr->Protection_pf[i] = 1;
+//				ppos= Arrptr->Protection_pos[i];
+//				Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
+//				printf("Failure in protection: %d \n", i);
+//                	}
+//		}
+//	}
+//	return;
+//}
