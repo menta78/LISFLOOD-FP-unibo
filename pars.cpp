@@ -244,19 +244,15 @@ void CheckParam(char* param_name, char* param_value_ptr, int line_number, Fnames
 		return;
 	if (read_string_param(param_name, line_number, param_value_ptr, "bdyfile", Fnameptr->bdyfilename, verbose, mode))
 		return;
+	if (read_string_param(param_name, line_number, param_value_ptr, "protectionfile", Fnameptr->protectionfilename, verbose, mode))
+		return;
+	
 	if (read_string_param(param_name, line_number, param_value_ptr, "weirfile", Fnameptr->weirfilename, verbose, mode) ||
 		read_string_param(param_name, line_number, param_value_ptr, "weir", Fnameptr->weirfilename, verbose, mode))
 	{
 		if (verbose == ON && mode == CMD_LINE) printf("Weir file set by command line: %s\n", Fnameptr->weirfilename);
 		return;
 	}
-	 if (read_string_param(param_name, line_number, param_value_ptr, "protectionfile", Fnameptr->protectionfilename, verbose, mode) ||
-                read_string_param(param_name, line_number, param_value_ptr, "protection", Fnameptr->protectionfilename, verbose, mode))
-        {
-                if (verbose == ON && mode == CMD_LINE) printf("Protection file set by command line: %s\n", Fnameptr->protectionfilename);
-                return;
-        }
-
 	// Turn on steady-state checking, and check for a specified tolerance (MDW)
 	if (read_empty_param(param_name, line_number, param_value_ptr, "steady", verbose, mode))
 	{
