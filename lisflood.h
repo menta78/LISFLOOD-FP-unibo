@@ -165,6 +165,7 @@ BoundCs - Boundary conditions
 struct TimeSeries{
 	NUMERIC_TYPE *time;
 	NUMERIC_TYPE *value;
+	char name[255];
 	int count;
 	int prev_index;
 
@@ -336,6 +337,7 @@ struct Arrays{
         NUMERIC_TYPE *Protection_y;
         NUMERIC_TYPE *Protection_posx;
         NUMERIC_TYPE *Protection_posy;
+	NUMERIC_TYPE *Protection_bcpos;
 
 	int *ChanMask;
 	int *SegMask;
@@ -404,6 +406,7 @@ struct Fnames{
 	char rivername[256];
 	char bcifilename[256];
 	char bdyfilename[256];
+	char swashfilename[256];
 	char weirfilename[256];
 	char protectionfilename[256];
 	char opfilename[256];
@@ -438,8 +441,15 @@ struct Fnames{
 struct BoundCs{
 	int* xpi; //used in legacy and read in
 	int* ypi; //used in legacy and read in
+	int* xpi_val;
+        int* ypi_val;
+	int* test;
+	int count;
+	//int* d = std::sqrt(std::pow(a - b, 2) + std::pow(c - d, 2));
 
 	char  *PS_Name;
+	//char  PS_Names;
+	std::vector<char> PS_Names;
 	ESourceType   *PS_Ident;
 	int   numPS;
 	// PS_Val used in case of fixed e.g. HFIX or QFIX (otherwise set to -1)
@@ -447,6 +457,8 @@ struct BoundCs{
 	// time series indexed by psi (point source index) //TFD
 	// PS_TimeSeries used in case of var e.e. HVAR or QVAR (otherwise set to NULL)
 	TimeSeries **PS_TimeSeries;
+	TimeSeries **PS_SWTimeSeries;
+
 
 	NUMERIC_TYPE *PS_Q_FP_old;
 	NUMERIC_TYPE *PS_Q_SG_old;
@@ -459,6 +471,7 @@ struct BoundCs{
 	// time series indexed by bci (boundary condition index) //TFD
 	// BC_TimeSeries used in case of var e.e. HVAR or QVAR (otherwise set to NULL)
 	TimeSeries **BC_TimeSeries;
+	TimeSeries **BC_SWTimeSeries;
 
 	NUMERIC_TYPE Qpoint_pos; // replace Qpoint with positive and negative versions to keep track of input or output for point sources
 	NUMERIC_TYPE Qpoint_neg;
@@ -469,6 +482,7 @@ struct BoundCs{
 	NUMERIC_TYPE VolOutMT; // added by JCN stores volume out over mass inteval
 
 	std::vector<TimeSeries> allTimeSeries;
+	std::vector<TimeSeries> allSWTimeSeries;
 };
 
 //-------------------------------------------
@@ -612,6 +626,7 @@ struct States{
 	int porosity;
 	int weirs;
 	int protections;
+	int swash;
 	int save_Ts;   // MT: added flag to output adaptive timestep
 	int save_QLs;  // MT: added flag to output Qlimits
 	int diffusive; // MT: added flag to indicate wish to use diffusive channel solver instead of default kinematic
@@ -710,6 +725,8 @@ struct Pars{
     NUMERIC_TYPE nodata_elevation; // DEM elevation used for NODATA values
     int drain_nodata; // remove water from DEM NODATA cells
     int limit_slopes; /**< DG2 slope limiter enabled when limit_slopes = ON */
+	NUMERIC_TYPE SWpart;
+
 };
 
 // Solver settings
@@ -857,7 +874,7 @@ void CheckParams(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Solver *Solv
 void LoadDEM(Fnames *, States *, Pars *, Arrays *, const int verbose);
 FILE* LoadDomainGeometry(const char* filename, Pars *Parptr, const int verbose, NUMERIC_TYPE& no_data_value);
 void LoadDEMData(Pars*, NUMERIC_TYPE *DEM, FILE *fp, NUMERIC_TYPE file_nodata_value);
-void LoadProtection(Fnames *, States *, Pars *, Arrays *, const int verbose);
+void LoadProtection(Fnames *, States *, Pars *, Arrays *, BoundCs *,const int verbose);
 void LoadManningsn(Fnames *, Pars *, Arrays *, const int verbose);
 void LoadDistInfil(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, const int verbose);
 void LoadSGCManningsn(Fnames *, Pars *, Arrays *, const int verbose);
@@ -867,7 +884,8 @@ void UpdateChannelsVector(States *, ChannelSegmentType *, vector<QID7_Store> *, 
 void LoadStart(Fnames *, States *, Pars *, Arrays *, SGCprams *, const int verbose);
 void LoadStartQ2D(Fnames*, Pars*, Arrays*, const int verbose);
 void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, const int verbose);
-void LoadBCVar(Fnames *, States *, Pars *, BoundCs *, ChannelSegmentType *, Arrays *, vector<ChannelSegmentType> *, const int verbose);
+void LoadBCVar(Fnames *, States *, Pars *, BoundCs *, ChannelSegmentType *, Arrays *,vector<ChannelSegmentType> *, const int verbose);
+void LoadSWVar(Fnames *, States *, Pars *, BoundCs *, ChannelSegmentType *, Arrays *, vector<ChannelSegmentType> *, const int verbose);
 void LoadWeir(Fnames *, States *, Pars *, Arrays *, const int verbose);
 void LoadStages(Fnames *, States *, Pars *, Stage *, const int verbose);
 void LoadGauges(Fnames *, States *, Pars *, Stage *, const int verbose);

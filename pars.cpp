@@ -244,6 +244,10 @@ void CheckParam(char* param_name, char* param_value_ptr, int line_number, Fnames
 		return;
 	if (read_string_param(param_name, line_number, param_value_ptr, "bdyfile", Fnameptr->bdyfilename, verbose, mode))
 		return;
+	if (read_string_param(param_name, line_number, param_value_ptr, "swashfile", Fnameptr->swashfilename, verbose, mode))
+		return;	
+	if (read_numeric_param(param_name, line_number, param_value_ptr, "swashpart", &Parptr->SWpart, verbose, mode))
+		return;
 	if (read_string_param(param_name, line_number, param_value_ptr, "protectionfile", Fnameptr->protectionfilename, verbose, mode))
 		return;
 	

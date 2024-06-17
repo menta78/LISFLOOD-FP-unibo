@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
 	Params.blx = C(0.0);
 	Params.bly = C(0.0);
 	Params.FPn = C(0.06);
+	Params.SWpart = C(0.25);
 	Params.SaveInt = C(1000.0);
 	Params.SaveTotal = C(0.0);
 	Params.MassInt = C(100.0);
@@ -216,6 +217,7 @@ int main(int argc, char *argv[])
 	SimStates.porosity = OFF;
 	SimStates.weirs = OFF;
 	SimStates.protections = OFF;
+	SimStates.swash  = OFF;
 	SimStates.save_Ts = OFF;
 	SimStates.save_QLs = OFF;
 	SimStates.startq = OFF;
@@ -423,7 +425,7 @@ int main(int argc, char *argv[])
 #endif
 
 	LoadDEM(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
-	LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, verbosemode);
+	//LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, BCptr, verbosemode);
 	// Dammask needs to be read after LoadDEM and before SGC FEOL
 	if (SimStates.DamMode == ON)LoadDamPrams(Fnameptr, Statesptr, Parptr, Damptr, verbosemode); //FEOL
 	Damptr->DamLoss = C(0.0); // To ensure dam loss is zero if no dams for mass balance! FEOL
@@ -469,6 +471,8 @@ int main(int argc, char *argv[])
 
 	LoadBCs(Fnameptr, Statesptr, Parptr, BCptr, verbosemode);
 	LoadBCVar(Fnameptr, Statesptr, Parptr, BCptr, CSTypePtr, Arrptr, ChannelSegmentsVecPtr, verbosemode);
+	LoadSWVar(Fnameptr, Statesptr, Parptr, BCptr, CSTypePtr, Arrptr, ChannelSegmentsVecPtr, verbosemode);
+	LoadProtection(Fnameptr, Statesptr, Parptr, Arrptr, BCptr, verbosemode);
 	LoadManningsn(Fnameptr, Parptr, Arrptr, verbosemode);
 	LoadDistInfil(Fnameptr, Parptr, Arrptr, verbosemode);
 	LoadSGCManningsn(Fnameptr, Parptr, Arrptr, verbosemode);

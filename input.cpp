@@ -307,14 +307,14 @@ void LoadWeir(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr,
 }
 
 // LOAD PROTECTION DATA
-void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, const int verbose)
+void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, BoundCs *BCptr, const int verbose)
 {
         if (strlen(Fnameptr->protectionfilename) == 0)
                 return;
         //Change apllied by SINCEM group
 
         FILE *fp;
-        int nw, i, xi, yi, p0, p1, posi;
+        int nw, i, xi, yi, p0, p1, posi, d, distance, posd;
         NUMERIC_TYPE x, y, z0, z1;
         char char_tmp[10], buff[LINE_BUFFER_LEN];
 
@@ -332,7 +332,7 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
 	Arrptr->Protection_posx = memory_allocate_numeric_legacy(nw);
 	Arrptr->Protection_posy = memory_allocate_numeric_legacy(nw);
 
-
+	Arrptr->Protection_bcpos = memory_allocate_numeric_legacy(nw);
         Arrptr->Protection_ph = memory_allocate_numeric_legacy(nw);
         Arrptr->Protection_pfh = memory_allocate_numeric_legacy(nw);
         Arrptr->Protection_pf = memory_allocate_numeric_legacy(nw);
@@ -362,10 +362,6 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
                         exit(0);
                 }
 
-
-
-
-
                sscanf(buff, "%" NUM_FMT" %" NUM_FMT" %" NUM_FMT" %" NUM_FMT"",
                                 &x, &y, Arrptr->Protection_ph + i, Arrptr->Protection_pfh + i);
 
@@ -388,6 +384,21 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
                         printf("Invalid protection Failure Height: %d (%" NUM_FMT")\n", i,Arrptr->Protection_pfh[i]);
                         exit(0);
                 }
+
+
+		//test=std::pow(2,2);
+		d=std::sqrt(std::pow(BCptr->xpi_val[0] - x, 2) + std::pow(BCptr->ypi_val[0] - y, 2));
+
+    		for (int z = 0; z < BCptr->count; ++z) 
+		{
+        		distance = std::sqrt(std::pow(BCptr->xpi_val[z] - x, 2) + std::pow(BCptr->ypi_val[z] - y, 2));
+        		if (d > distance) 
+			{
+           	 		d = distance;
+           			posd = z;
+			}
+		}
+		Arrptr->Protection_bcpos[i] = posd;
 
 		posi=(int)(xi + yi*Parptr->xsz);
                 Arrptr->Protection_PROTEC[posi]=Arrptr->Protection_ph[i];
@@ -1627,6 +1638,8 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 	// POINT SOURCE STUFF
 	BCptr->xpi = new int[maxpi];
 	BCptr->ypi = new int[maxpi];
+	BCptr->xpi_val = new int[maxpi];
+        BCptr->ypi_val = new int[maxpi];
 	for (i = 0; i < maxpi; i++)
 		BCptr->xpi[i] = BCptr->ypi[i] = -1;
 	BCptr->PS_Ident = new ESourceType[maxpi];
@@ -1735,6 +1748,9 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 			fscanf(fp, "%" NUM_FMT"%" NUM_FMT"", &px, &py);
 			BCptr->xpi[pi] = (int)((px - Parptr->blx) / Parptr->dx);
 			BCptr->ypi[pi] = (int)((Parptr->tly - py) / Parptr->dy);
+			BCptr->xpi_val[pi] = px;
+			BCptr->ypi_val[pi] = py;
+		
 		}
 
 		// Read free boundary condition locations
@@ -1825,7 +1841,7 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 				BCptr->BC_Ident[i] = HVAR3;
 			}
 		}
-		// Fixed/Varying values/names for point sources
+		// Fixed/Varying values/names for point sources;
 		// Note these need to come after the boundary conditions in the code else both will get implemented! 
 		// I'm not convinced &&BCptr->xpi[pi]>-1&&pi>-1 is strict enough (JCN) 
 		else if (!STRCMPi(buff, "HFIX") && BCptr->xpi[pi] > -1 && pi > -1)
@@ -1904,6 +1920,7 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 
 		BCptr->xpi = new_xpi;
 		BCptr->ypi = new_ypi;
+		BCptr->count = pi;
 		BCptr->PS_Ident = new_PS_Ident;
 		BCptr->PS_Val = new_PS_Val;
 		BCptr->PS_Name = new_PS_Name;
@@ -1936,8 +1953,8 @@ void LoadTimeSeries
 	TimeSeries& timeSeries,
 	const char* filename,
 	FILE * fp,
-	int skipFirstLine
-)
+	int skipFirstLine,
+	)
 {
 	int ndata = -1;
 	char units[80];
@@ -1965,6 +1982,7 @@ void LoadTimeSeries
 		exit(-1);
 	}
 
+	
 	timeSeries.count = ndata;
 	timeSeries.prev_index = 0;
 	timeSeries.prev_time = C(-1.0);
@@ -2050,6 +2068,7 @@ void LoadBCVar(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr
 		BCptr->PS_TimeSeries = new TimeSeries*[BCptr->numPS];
 		for (i = 0; i < BCptr->numPS; i++)
 		{
+		
 			BCptr->PS_TimeSeries[i] = NULL;
 		}
 	}
@@ -2190,6 +2209,97 @@ void LoadBCVar(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr
 	return;
 }
 
+
+
+//currently done just for point sources points
+// LOAD TIME VARYING SWASH  CONDITIONS FROM .swash FILE
+void LoadSWVar(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, ChannelSegmentType *ChannelSegments, Arrays *Arrptr, vector<ChannelSegmentType> *ChannelSegmentsVecPtr, const int verbose)
+{
+        FILE *fp;
+        int i, numBCs, chseg, j;
+        char line_buffer[LINE_BUFFER_LEN];
+        char name_buffer[255], units[80];
+
+        numBCs = 2 * Parptr->xsz + 2 * Parptr->ysz;
+        BCptr->BC_SWTimeSeries = new TimeSeries*[numBCs];
+
+        BCptr->allSWTimeSeries.reserve(numBCs + BCptr->numPS);
+
+        for (i = 0; i < numBCs; i++)
+        {
+                BCptr->BC_SWTimeSeries[i] = NULL;
+        }
+
+        if (BCptr->numPS > 0)
+        {
+                BCptr->PS_SWTimeSeries = new TimeSeries*[BCptr->numPS];
+                for (i = 0; i < BCptr->numPS; i++)
+                {
+                        BCptr->PS_SWTimeSeries[i] = NULL;
+                }
+        }
+
+        if (strlen(Fnameptr->swashfilename) != 0)
+        {
+                fp = fopen_or_die(Fnameptr->swashfilename, "r", "Loading time varying swash boundary conditions\n", verbose);
+
+                int line_number = 0;
+                while (fgets(line_buffer, LINE_BUFFER_LEN, fp))
+                {
+                        line_number++;
+
+                        int line_len = strlen(trimwhitespace(line_buffer));
+                        if (line_len == LINE_BUFFER_LEN - 1)
+                        {
+                                printf("swashfile file line too long line %s\n", Fnameptr->swashfilename);
+                                exit(-1);
+                        }
+                        // skip 1st, any comment line and any empty line
+                        if (line_number == 1 || line_len == 0 || line_buffer[0] == '#')
+                                continue;
+
+                        sscanf(line_buffer, "%s", name_buffer);
+
+                        BCptr->allSWTimeSeries.push_back(TimeSeries());
+                        TimeSeries& timeSeries = BCptr->allSWTimeSeries.back();
+                        //LoadTimeSeries(timeSeries, Fnameptr->swashfilename, fp, OFF);
+                        int timeSeriesUsed = 0;
+
+                        // Check through point source names, if found, point to the loaded time series.
+                        for (i = 0; i < BCptr->numPS; i++)
+                        {
+                                if (!strcmp(name_buffer, (BCptr->PS_Name + i * 80)))
+                                {
+					continue;
+                                        //BCptr->PS_SWTimeSeries[i] = &timeSeries;
+				}
+
+					timeSeriesUsed++;
+                        }
+                        
+			if (timeSeriesUsed == 0)
+                        {
+                                printf("WARNING: swash  %s is unreferenced - data ignored.\n", name_buffer);
+
+                                FreeTimeSeries(timeSeries);
+                                BCptr->allSWTimeSeries.pop_back();
+
+                                continue;
+                        }
+                        if (verbose == ON) printf("swash %s read. \n", name_buffer);
+                }
+                fclose(fp);
+        }
+        else
+        {
+                if (verbose == ON) printf("No swashfile used\n");
+
+        }
+
+        if (verbose == ON) printf("Done.\n\n");
+        return;
+}
+
 //-----------------------------------------------------------------------------
 // LOAD TIME EVAPORATION FROM .evap FILE
 void LoadEvap(Fnames *Fnameptr, Arrays *Arrptr, const int verbose)
@@ -2199,7 +2309,6 @@ void LoadEvap(Fnames *Fnameptr, Arrays *Arrptr, const int verbose)
 	char buff[255], units[80];
 
 	fp = fopen_or_die(Fnameptr->evapfilename, "r", "Loading time varying evaporation", verbose);
-
 	Arrptr->evap = LoadTimeSeries(Fnameptr->evapfilename, fp, ON);
 	fclose(fp);
 
@@ -2230,6 +2339,7 @@ void LoadRain(Fnames *Fnameptr, Arrays *Arrptr, const int verbose)
 	if (verbose == ON) printf("Done.\n\n");
 	return;
 }
+
 //-----------------------------------------------------------------------------
 // LOAD RAINFALL DISTRIBUTION MASK
 void LoadRainmask(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, States *Statesptr, const int verbose)
@@ -2357,232 +2467,228 @@ void LoadSGC(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, States *Statesptr, 
 // LOAD GAUGE DATA
 void LoadGauges(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Stage *Locptr, const int verbose)
 {
-	//Added by Jeff Neal, 22 Jul 2011
-	//Provides functionality to output regular section measurements of discharge
+        //Added by Jeff Neal, 22 Jul 2011
+        //Provides functionality to output regular section measurements of discharge
 
-	int i;
-	char dum[10];
-	FILE *fp;
-	fp = fopen_or_die(Fnameptr->gaugefilename, "r", "Gauge section information", verbose);
-	Statesptr->gsection = ON;
+        int i;
+        char dum[10];
+        FILE *fp;
+        fp = fopen_or_die(Fnameptr->gaugefilename, "r", "Gauge section information", verbose);
+        Statesptr->gsection = ON;
 
-	fscanf(fp, "%d", &Locptr->Ngauges);
-	fgetc(fp); // Retrieve closing EOL
+        fscanf(fp, "%d", &Locptr->Ngauges);
+        fgetc(fp); // Retrieve closing EOL
 
-	Locptr->gauge_loc_x = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
-	Locptr->gauge_loc_y = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
-	Locptr->gauge_grid_x = new int[Locptr->Ngauges]();
-	Locptr->gauge_grid_y = new int[Locptr->Ngauges]();
-	Locptr->gauge_dir = new EDirection[Locptr->Ngauges]();
-	Locptr->gauge_dist = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
-	Locptr->gauge_cells = new int[Locptr->Ngauges]();
+        Locptr->gauge_loc_x = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
+        Locptr->gauge_loc_y = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
+        Locptr->gauge_grid_x = new int[Locptr->Ngauges]();
+        Locptr->gauge_grid_y = new int[Locptr->Ngauges]();
+        Locptr->gauge_dir = new EDirection[Locptr->Ngauges]();
+        Locptr->gauge_dist = memory_allocate_zero_numeric_legacy(Locptr->Ngauges);
+        Locptr->gauge_cells = new int[Locptr->Ngauges]();
 
-	//scan x,y locations from file
-	for (i = 0; i < Locptr->Ngauges; i++)
-	{
-		fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_loc_x[i]);
-		fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_loc_y[i]);
-		fscanf(fp, "%s", dum);
-		if (!STRCMPi(dum, "N")) Locptr->gauge_dir[i] = North;
-		if (!STRCMPi(dum, "E")) Locptr->gauge_dir[i] = East;
-		if (!STRCMPi(dum, "S")) Locptr->gauge_dir[i] = South;
-		if (!STRCMPi(dum, "W")) Locptr->gauge_dir[i] = West;
+        //scan x,y locations from file
+        for (i = 0; i < Locptr->Ngauges; i++)
+        {
+                fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_loc_x[i]);
+                fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_loc_y[i]);
+                fscanf(fp, "%s", dum);
+                if (!STRCMPi(dum, "N")) Locptr->gauge_dir[i] = North;
+                if (!STRCMPi(dum, "E")) Locptr->gauge_dir[i] = East;
+                if (!STRCMPi(dum, "S")) Locptr->gauge_dir[i] = South;
+                if (!STRCMPi(dum, "W")) Locptr->gauge_dir[i] = West;
 
-		fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_dist[i]);
-		Locptr->gauge_cells[i] = int(ceil(Locptr->gauge_dist[i] / Parptr->dx)); // work out number of cells
-	}
-	for (i = 0; i < Locptr->Ngauges; i++)
-	{
-		// convert coordinates to cells
-		Locptr->gauge_grid_x[i] = int(floor((Locptr->gauge_loc_x[i] - Parptr->blx) / Parptr->dx));
-		Locptr->gauge_grid_y[i] = Parptr->ysz - 1 - (int(floor((Locptr->gauge_loc_y[i] - Parptr->bly) / Parptr->dy)));
+                fscanf(fp, "%" NUM_FMT"", &Locptr->gauge_dist[i]);
+                Locptr->gauge_cells[i] = int(ceil(Locptr->gauge_dist[i] / Parptr->dx)); // work out number of cells
+        }
+        for (i = 0; i < Locptr->Ngauges; i++)
+        {
+                // convert coordinates to cells
+                Locptr->gauge_grid_x[i] = int(floor((Locptr->gauge_loc_x[i] - Parptr->blx) / Parptr->dx));
+                Locptr->gauge_grid_y[i] = Parptr->ysz - 1 - (int(floor((Locptr->gauge_loc_y[i] - Parptr->bly) / Parptr->dy)));
 
-		// check for off-image values and set to domain edge
-		if (Locptr->gauge_grid_x[i] < 0) Locptr->gauge_grid_x[i] = 0;
-		if (Locptr->gauge_grid_x[i] >= Parptr->xsz) Locptr->gauge_grid_x[i] = Parptr->xsz - 1;
-		if (Locptr->gauge_grid_y[i] < 0) Locptr->gauge_grid_y[i] = 0;
-		if (Locptr->gauge_grid_y[i] >= Parptr->ysz) Locptr->gauge_grid_y[i] = Parptr->ysz - 1;
+                // check for off-image values and set to domain edge
+                if (Locptr->gauge_grid_x[i] < 0) Locptr->gauge_grid_x[i] = 0;
+                if (Locptr->gauge_grid_x[i] >= Parptr->xsz) Locptr->gauge_grid_x[i] = Parptr->xsz - 1;
+                if (Locptr->gauge_grid_y[i] < 0) Locptr->gauge_grid_y[i] = 0;
+                if (Locptr->gauge_grid_y[i] >= Parptr->ysz) Locptr->gauge_grid_y[i] = Parptr->ysz - 1;
 
-		// adjust distances if these will go off the domain - check these (Toby.D Checked and fixed!)
-		if ((Locptr->gauge_dir[i] == North || Locptr->gauge_dir[i] == South) && 
-			Locptr->gauge_grid_y[i] + Locptr->gauge_cells[i] > Parptr->ysz - 1)
-			Locptr->gauge_cells[i] = Parptr->ysz - 1 - Locptr->gauge_grid_y[i];
-		else if ((Locptr->gauge_dir[i] == East || Locptr->gauge_dir[i] == West)
-			&& Locptr->gauge_grid_x[i] + Locptr->gauge_cells[i] > Parptr->xsz - 1)
-			Locptr->gauge_cells[i] = Parptr->xsz - 1 - Locptr->gauge_grid_x[i];
+                // adjust distances if these will go off the domain - check these (Toby.D Checked and fixed!)
+                if ((Locptr->gauge_dir[i] == North || Locptr->gauge_dir[i] == South) &&
+                        Locptr->gauge_grid_y[i] + Locptr->gauge_cells[i] > Parptr->ysz - 1)
+                        Locptr->gauge_cells[i] = Parptr->ysz - 1 - Locptr->gauge_grid_y[i];
+                else if ((Locptr->gauge_dir[i] == East || Locptr->gauge_dir[i] == West)
+                        && Locptr->gauge_grid_x[i] + Locptr->gauge_cells[i] > Parptr->xsz - 1)
+                        Locptr->gauge_cells[i] = Parptr->xsz - 1 - Locptr->gauge_grid_x[i];
 
-		// increment x and y positions of gauges - to measure the correct cell face
-		if (Locptr->gauge_dir[i] == East)
-			Locptr->gauge_grid_x[i]++; // start on east face
-		if (Locptr->gauge_dir[i] == South)
-			Locptr->gauge_grid_y[i]++; // start on south face
-	}
+                // increment x and y positions of gauges - to measure the correct cell face
+                if (Locptr->gauge_dir[i] == East)
+                        Locptr->gauge_grid_x[i]++; // start on east face
+                if (Locptr->gauge_dir[i] == South)
+                        Locptr->gauge_grid_y[i]++; // start on south face
+        }
 
-	if (verbose == ON) printf("Done.\n\n");
+        if (verbose == ON) printf("Done.\n\n");
 
-	fclose(fp);
-	return;
+        fclose(fp);
+        return;
 }
-
 // LOAD SGC PARAMETER DATA
 void LoadSGCChanPrams(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, SGCprams *SGCptr, const int verbose)
 {
-	//Added by Jeff Neal, 06 Aug 2012
-	//Provides functionality to import difstrbuted sub-grid channel parameters
+        //Added by Jeff Neal, 06 Aug 2012
+        //Provides functionality to import difstrbuted sub-grid channel parameters
 
-	int i, j, tmp, buff_size = 800;
-	char buff[800];
-	FILE *fp;
-	fp = fopen_or_die(Fnameptr->SGCchanpramsfilename, "r", "Loading SGC channel parameter information", verbose);
+        int i, j, tmp, buff_size = 800;
+        char buff[800];
+        FILE *fp;
+        fp = fopen_or_die(Fnameptr->SGCchanpramsfilename, "r", "Loading SGC channel parameter information", verbose);
 
-	//read line
-	for (j = 0; j < buff_size; j++)
-	{
-		buff[j] = fgetc(fp);
-		if (buff[j] == '\n' || buff[j] == EOF) break;
-	}
-	buff[j] = '\0';									// Finish off string
-	sscanf(buff, "%i", &SGCptr->NSGCprams);
+        //read line
+        for (j = 0; j < buff_size; j++)
+        {
+                buff[j] = fgetc(fp);
+                if (buff[j] == '\n' || buff[j] == EOF) break;
+        }
+        buff[j] = '\0';                                                                 // Finish off string
+        sscanf(buff, "%i", &SGCptr->NSGCprams);
+        // create new variables
+        SGCptr->SGCchantype = new int[SGCptr->NSGCprams]();
+        SGCptr->SGCp = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        SGCptr->SGCr = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        SGCptr->SGCs = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        SGCptr->SGCn = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        SGCptr->SGCm = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        SGCptr->SGCa = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
 
-	// create new variables
-	SGCptr->SGCchantype = new int[SGCptr->NSGCprams]();
-	SGCptr->SGCp = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
-	SGCptr->SGCr = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
-	SGCptr->SGCs = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
-	SGCptr->SGCn = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
-	SGCptr->SGCm = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
-	SGCptr->SGCa = memory_allocate_zero_numeric_legacy(SGCptr->NSGCprams);
+        if (verbose == ON) printf("Num   Type  p     r     sl    n     m     a    \n");
+        //scan x,y locations from file
+        for (i = 0; i < SGCptr->NSGCprams; i++)
+        {
+                // initalise with defaults
+                SGCptr->SGCchantype[i] = 1;
+                SGCptr->SGCp[i] = Parptr->SGC_p;
+                SGCptr->SGCr[i] = Parptr->SGC_r;
+                SGCptr->SGCs[i] = Parptr->SGC_s;
+                SGCptr->SGCn[i] = Parptr->SGC_n;
+                SGCptr->SGCm[i] = Parptr->SGC_m;
+                SGCptr->SGCa[i] = Parptr->SGC_a;
+                // load buffer until EOL
+                for (j = 0; j < buff_size; j++)
+                {
+                        buff[j] = fgetc(fp);
+                        if (buff[j] == '\n' || buff[j] == EOF) break;
+                }
+                buff[j] = '\0';                                                                 // Finish off string
+                sscanf(buff, "%i%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"", &tmp, &SGCptr->SGCchantype[i], &SGCptr->SGCp[i], &SGCptr->SGCr[i], &SGCptr->SGCs[i], &SGCptr->SGCn[i], &SGCptr->SGCm[i], &SGCptr->SGCa[i]);
 
-	if (verbose == ON) printf("Num   Type  p     r     sl    n     m     a    \n");
-	//scan x,y locations from file
-	for (i = 0; i < SGCptr->NSGCprams; i++)
-	{
-		// initalise with defaults
-		SGCptr->SGCchantype[i] = 1;
-		SGCptr->SGCp[i] = Parptr->SGC_p;
-		SGCptr->SGCr[i] = Parptr->SGC_r;
-		SGCptr->SGCs[i] = Parptr->SGC_s;
-		SGCptr->SGCn[i] = Parptr->SGC_n;
-		SGCptr->SGCm[i] = Parptr->SGC_m;
-		SGCptr->SGCa[i] = Parptr->SGC_a;
-		// load buffer until EOL
-		for (j = 0; j < buff_size; j++)
-		{
-			buff[j] = fgetc(fp);
-			if (buff[j] == '\n' || buff[j] == EOF) break;
-		}
-		buff[j] = '\0';									// Finish off string
-		sscanf(buff, "%i%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"", &tmp, &SGCptr->SGCchantype[i], &SGCptr->SGCp[i], &SGCptr->SGCr[i], &SGCptr->SGCs[i], &SGCptr->SGCn[i], &SGCptr->SGCm[i], &SGCptr->SGCa[i]);
+                if (verbose == ON && SGCptr->SGCchantype[i] == 2 && SGCptr->SGCs[i] > 20)  printf("Warning channel shape exponent above recomended value");
+                if (verbose == ON && SGCptr->SGCchantype[i] == 2 && SGCptr->SGCs[i] < C(1.3)) printf("Warning channel shape exponent below recomended value");
+                if (verbose == ON && SGCptr->SGCs[i] < C(0.0)) printf("ERROR SGC meander coefficient is too low!");
+                if (verbose == ON) printf("%i     %i     %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT"\n", i, SGCptr->SGCchantype[i], SGCptr->SGCp[i], SGCptr->SGCr[i], SGCptr->SGCs[i], SGCptr->SGCn[i], SGCptr->SGCm[i], SGCptr->SGCa[i]);
+        }
+        if (verbose == ON) printf("Done.\n\n");
 
-		if (verbose == ON && SGCptr->SGCchantype[i] == 2 && SGCptr->SGCs[i] > 20)  printf("Warning channel shape exponent above recomended value");
-		if (verbose == ON && SGCptr->SGCchantype[i] == 2 && SGCptr->SGCs[i] < C(1.3)) printf("Warning channel shape exponent below recomended value");
-		if (verbose == ON && SGCptr->SGCs[i] < C(0.0)) printf("ERROR SGC meander coefficient is too low!");
-		if (verbose == ON) printf("%i     %i     %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT"\n", i, SGCptr->SGCchantype[i], SGCptr->SGCp[i], SGCptr->SGCr[i], SGCptr->SGCs[i], SGCptr->SGCn[i], SGCptr->SGCm[i], SGCptr->SGCa[i]);
-	}
-	if (verbose == ON) printf("Done.\n\n");
-
-	fclose(fp);
-	return;
+        fclose(fp);
+        return;
 }
 
 // LOAD DAM PARAMETER DATA //FEOL
 void LoadDamPrams(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, DamData *Damptr, const int verbose)
 {
-	//Added by Fiachra O'Loughlin, 20 July 2016
-	//Provides functionality to import Dam parameters
+        //Added by Fiachra O'Loughlin, 20 July 2016
+        //Provides functionality to import Dam parameters
 
-	int i, j, tmp, buff_size = 800;
-	char buff[800];
-	FILE *fp;
-	fp = fopen_or_die(Fnameptr->Damparfilename, "r", "Loading Dam parameter information", verbose);
+        int i, j, tmp, buff_size = 800;
+        char buff[800];
+        FILE *fp;
+        fp = fopen_or_die(Fnameptr->Damparfilename, "r", "Loading Dam parameter information", verbose);
 
-	//read line
-	for (j = 0; j < buff_size; j++)
-	{
-		buff[j] = fgetc(fp);
-		if (buff[j] == '\n' || buff[j] == EOF) break;
-	}
-	buff[j] = '\0';									// Finish off string
-	sscanf(buff, "%i", &Damptr->NumDams);
+        //read line
+        for (j = 0; j < buff_size; j++)
+        {
+                buff[j] = fgetc(fp);
+                if (buff[j] == '\n' || buff[j] == EOF) break;
+        }
+        buff[j] = '\0';                                                                 // Finish off string
+        sscanf(buff, "%i", &Damptr->NumDams);
 
-	// create new variables
-	Damptr->Volmax = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamArea = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->InitialHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->SpillWidth = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->Spill_Cd = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->SpillHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamOperationCode = new int[Damptr->NumDams]();
-	Damptr->DamMeanQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamOperationQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamVin = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamVol = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->DamTotalQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->SpillQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->AnnualRelease = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->OP7_Kappa = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
-	Damptr->OutputCellX = memory_allocate_zero_numeric_legacy(Damptr->NumDams);//new int[Damptr->NumDams]();
-	Damptr->OutputCellY = memory_allocate_zero_numeric_legacy(Damptr->NumDams);//;
-	Damptr->DamMaxH = C(0.0);
-	Damptr->DamYear = new int[Damptr->NumDams]();
-	
-	// Damptr->DynamicEdge = new DamEdge *[Damptr->NumDams];
+        // create new variables
+        Damptr->Volmax = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamArea = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->InitialHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->SpillWidth = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->Spill_Cd = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->SpillHeight = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamOperationCode = new int[Damptr->NumDams]();
+        Damptr->DamMeanQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamOperationQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamVin = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamVol = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->DamTotalQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->SpillQ = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->AnnualRelease = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->OP7_Kappa = memory_allocate_zero_numeric_legacy(Damptr->NumDams);
+        Damptr->OutputCellX = memory_allocate_zero_numeric_legacy(Damptr->NumDams);//new int[Damptr->NumDams]();
+        Damptr->OutputCellY = memory_allocate_zero_numeric_legacy(Damptr->NumDams);//;
+        Damptr->DamMaxH = C(0.0);
+        Damptr->DamYear = new int[Damptr->NumDams]();
 
-	
+        // Damptr->DynamicEdge = new DamEdge *[Damptr->NumDams];
 
-	if (verbose == ON) printf("Num   Vol	Area	Initial_H	Dam_H     Spill_Width     Spill_Cd    Spill_Height     Dam_Op_Q     Output_X	Output_Y    \n");
-	//scan x,y locations from file
-	for (i = 0; i < Damptr->NumDams; i++)
-	{
-		// Set Size of DynamicEgde to NULL;
-		// Damptr->DynamicEdge[i] = NULL;
-		// load buffer until EOL
-		for (j = 0; j < buff_size; j++)
-		{
-			buff[j] = fgetc(fp);
-			if (buff[j] == '\n' || buff[j] == EOF) break;
-		}
-		buff[j] = '\0';									// Finish off string
-		sscanf(buff, "%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"", &tmp, &Damptr->Volmax[i], &Damptr->DamArea[i], &Damptr->InitialHeight[i], &Damptr->DamHeight[i], &Damptr->SpillWidth[i], &Damptr->Spill_Cd[i], &Damptr->SpillHeight[i], &Damptr->DamOperationCode[i], &Damptr->DamMeanQ[i], &Damptr->OutputCellX[i], &Damptr->OutputCellY[i]);
-				
-		if (verbose == ON) printf("%i     %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT"  %" NUM_FMT"  %" NUM_FMT"\n", i, Damptr->Volmax[i], Damptr->DamArea[i], Damptr->InitialHeight[i], Damptr->DamHeight[i], Damptr->SpillWidth[i], Damptr->Spill_Cd[i], Damptr->SpillHeight[i], Damptr->DamMeanQ[i], Damptr->OutputCellX[i], Damptr->OutputCellY[i]);
-		Damptr->OutputCellX[i] = (floor((Damptr->OutputCellX[i] - Parptr->blx) / Parptr->dx));
-		Damptr->OutputCellY[i] = Parptr->ysz - 1 - ((floor((Damptr->OutputCellY[i] - Parptr->bly) / Parptr->dy)));
-	}
-	if (verbose == ON) printf("Done.\n\n");
 
-	fclose(fp);
-	
-	return;
+
+        if (verbose == ON) printf("Num   Vol    Area    Initial_H       Dam_H     Spill_Width     Spill_Cd    Spill_Height     Dam_Op_Q     Output_X    Output_Y    \n");
+        //scan x,y locations from file
+        for (i = 0; i < Damptr->NumDams; i++)
+        {
+                // Set Size of DynamicEgde to NULL;
+                // Damptr->DynamicEdge[i] = NULL;
+                // load buffer until EOL
+                for (j = 0; j < buff_size; j++)
+                {
+                        buff[j] = fgetc(fp);
+                        if (buff[j] == '\n' || buff[j] == EOF) break;
+                }
+                buff[j] = '\0';                                                                 // Finish off string
+                sscanf(buff, "%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"%i%" NUM_FMT"%" NUM_FMT"%" NUM_FMT"", &tmp, &Damptr->Volmax[i], &Damptr->DamArea[i], &Damptr->InitialHeight[i], &Damptr->DamHeight[i], &Damptr->SpillWidth[i], &Damptr->Spill_Cd[i], &Damptr->SpillHeight[i], &Damptr->DamOperationCode[i], &Damptr->DamMeanQ[i], &Damptr->OutputCellX[i], &Damptr->OutputCellY[i]);
+
+                if (verbose == ON) printf("%i     %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT" %.3" NUM_FMT"  %" NUM_FMT"  %" NUM_FMT"\n", i, Damptr->Volmax[i], Damptr->DamArea[i], Damptr->InitialHeight[i], Damptr->DamHeight[i], Damptr->SpillWidth[i], Damptr->Spill_Cd[i], Damptr->SpillHeight[i], Damptr->DamMeanQ[i], Damptr->OutputCellX[i], Damptr->OutputCellY[i]);
+                Damptr->OutputCellX[i] = (floor((Damptr->OutputCellX[i] - Parptr->blx) / Parptr->dx));
+                Damptr->OutputCellY[i] = Parptr->ysz - 1 - ((floor((Damptr->OutputCellY[i] - Parptr->bly) / Parptr->dy)));
+        }
+        if (verbose == ON) printf("Done.\n\n");
+
+        fclose(fp);
+
+        return;
 }
 void LoadDamMask(Fnames *Fnameptr, Pars *Parptr, Arrays *Arrptr, DamData *Damptr, const int verbose)  //FEOL
 {
-	NUMERIC_TYPE no_data_value = -9999;
-	int i, j;
-	int n; //Check
-	int num_cols; int num_rows; NUMERIC_TYPE  xllcorner; NUMERIC_TYPE  yllcorner; NUMERIC_TYPE  cell_size;
+        NUMERIC_TYPE no_data_value = -9999;
+        int i, j;
+        int n; //Check
+        int num_cols; int num_rows; NUMERIC_TYPE  xllcorner; NUMERIC_TYPE  yllcorner; NUMERIC_TYPE  cell_size;
 
-		
-	read_file(Fnameptr->DamMaskfilename, no_data_value, &num_cols, &num_rows, &Arrptr->DamMask, &xllcorner, &yllcorner, &cell_size);
 
-	// Changes DEM to DEM_NO_DATA where mask is negative (no flow cells). No flow cells are ignored in 2-D solver.
-	for (j = 0; j < Parptr->ysz; j++) for (i = 0; i < Parptr->xsz; i++)
-	{
-		if (Arrptr->DamMask[i + j*Parptr->xsz] < C(0.0)) 
-		{
-			Arrptr->DEM[i + j*Parptr->xsz] = no_data_value;
-			if (AreEqual(Arrptr->DEM[i + j*Parptr->xsz], no_data_value))
-			Arrptr->DEM[i + j*Parptr->xsz] = DEM_NO_DATA;
-		}
-	}
-	Damptr->Edgenos = new int[Damptr->NumDams]();
-	for (j = 0; j <Parptr->ysz; j++) for (i = 0; i < Parptr->xsz; i++) for (n = 0; n < Damptr->NumDams; n++)
-	{
+        read_file(Fnameptr->DamMaskfilename, no_data_value, &num_cols, &num_rows, &Arrptr->DamMask, &xllcorner, &yllcorner, &cell_size);
+        // Changes DEM to DEM_NO_DATA where mask is negative (no flow cells). No flow cells are ignored in 2-D solver.
+        for (j = 0; j < Parptr->ysz; j++) for (i = 0; i < Parptr->xsz; i++)
+        {
+                if (Arrptr->DamMask[i + j*Parptr->xsz] < C(0.0))
+                {
+                        Arrptr->DEM[i + j*Parptr->xsz] = no_data_value;
+                        if (AreEqual(Arrptr->DEM[i + j*Parptr->xsz], no_data_value))
+                        Arrptr->DEM[i + j*Parptr->xsz] = DEM_NO_DATA;
+                }
+        }
+        Damptr->Edgenos = new int[Damptr->NumDams]();
+        for (j = 0; j <Parptr->ysz; j++) for (i = 0; i < Parptr->xsz; i++) for (n = 0; n < Damptr->NumDams; n++)
+        {
 
-		if (Arrptr->DamMask[i + j*Parptr->xsz]== (n+1))
-			Damptr->Edgenos[n]++;		
-	}
-	return;
+                if (Arrptr->DamMask[i + j*Parptr->xsz]== (n+1))
+                        Damptr->Edgenos[n]++;
+        }
+        return;
 }
-
