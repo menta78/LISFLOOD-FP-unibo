@@ -484,7 +484,7 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 	int i, j;
 	NUMERIC_TYPE *qxptr0, *qyptr0, *qyptr1, *hptr;
 	int *mptr;
-	NUMERIC_TYPE dV, himp, qtmp;
+	NUMERIC_TYPE dV, himp, himpSW, qtmp;
 	NUMERIC_TYPE dAPorTemp;
 	NUMERIC_TYPE Qpnt;
 
@@ -565,7 +565,14 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 		}
 		if (BCptr->PS_Ident[ps_index] == HVAR3) // HVAR
 		{
+			
 			himp = InterpolateTimeSeries(BCptr->PS_TimeSeries[ps_index], Solverptr->t) - Arrptr->DEM[BCptr->xpi[ps_index] + BCptr->ypi[ps_index] * Parptr->xsz];
+			if (BCptr->PS_SWTimeSeries != NULL)
+				{
+					NUMERIC_TYPE swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[ps_index], Solverptr->t);
+					himpSW = swash * Parptr->SWpart;
+				        himp = himp + himpSW;
+			        }
 			if (himp<C(0.0)) himp = C(0.0);
 
 			Qpnt = (himp - Arrptr->H[BCptr->xpi[ps_index] + BCptr->ypi[ps_index] * Parptr->xsz])*Parptr->dA / Solverptr->Tstep;
