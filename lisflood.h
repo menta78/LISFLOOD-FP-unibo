@@ -903,7 +903,7 @@ FILE* fopen_or_die(const char * filename, const char* mode, const char* message 
 // LISFLOOD Solution prototypes - iterateq.cpp
 void IterateQ(Fnames *, Files *, States *, Pars *, Solver*, BoundCs *, Stage *, ChannelSegmentType *, Arrays *, SGCprams *, vector<int> *, int *, vector<ChannelSegmentType> *, const int verbose);
 void UpdateH(States *, Pars *, Solver *, BoundCs *, ChannelSegmentType *, Arrays *);
-void UpdateDEM(Fnames *, States *, Pars *, Arrays *, Solver *);
+void UpdateDEM(Fnames *, States *, Pars *, Arrays *, Solver *, BoundCs *);
 
 // Floodplain prototypes - fp_flow.cpp
 void FloodplainQ(States *, Pars *, Solver *, Arrays *, SGCprams *);

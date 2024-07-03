@@ -161,7 +161,7 @@ void IterateQ(Fnames *Fnameptr, Files *Fptr, States *Statesptr, Pars *Parptr, So
 			// else UpdateH(Statesptr,Parptr,Solverptr,BCptr,ChannelSegments,Arrptr);
 			// change to CalcFPQxRoe and CalcFPQyRoe... now return Q's for UpdateH (JCN)
 			UpdateH(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr);
-			UpdateDEM(Fnameptr, Statesptr, Parptr, Arrptr, Solverptr);
+			UpdateDEM(Fnameptr, Statesptr, Parptr, Arrptr, Solverptr, BCptr);
 			if (Statesptr->hazard == ON) UpdateV(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr);
 
 			BoundaryFlux(Statesptr, Parptr, Solverptr, BCptr, ChannelSegments, Arrptr, ChannelSegmentsVecPtr);
@@ -570,7 +570,7 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 			if (BCptr->PS_SWTimeSeries != NULL)
 				{
 					NUMERIC_TYPE swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[ps_index], Solverptr->t);
-					himpSW = swash * Parptr->SWpart;
+					himpSW = (swash * Parptr->SWpart); // watersupply = swash/2 * factor
 				        himp = himp + himpSW;
 			        }
 			if (himp<C(0.0)) himp = C(0.0);
@@ -587,12 +587,12 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 }
 
 
-void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, Solver *Solverptr)
+void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr, Solver *Solverptr, BoundCs *BCptr)
 {
-        if (strlen(Fnameptr->protectionfilename) == 0)
-                return;
+      if (strlen(Fnameptr->protectionfilename) == 0)
+	      return;
 
-      int p0, p1, p2, p3, p4, p5, p6, p7,ppos;
+      int p0, p1, p2, p3, p4, p5, p6, p7, ppos, posbc;
       for (int i=0; i<Arrptr->protection_count; i++)
       {
         if (Arrptr->Protection_pf[i] == 0)
@@ -605,11 +605,20 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
               p5=Arrptr->Protection_pbounds[(8*i)+5]; //(xi-1) + (yi+1)
               p6=Arrptr->Protection_pbounds[(8*i)+6]; //(xi) + (yi+1)
               p7=Arrptr->Protection_pbounds[(8*i)+7]; //(xi+1) + (yi+1)
-              
+	     
+	      NUMERIC_TYPE swash = 0.0;
+	      if (strlen(Fnameptr->protectionfilename) != 0)
+	      {      
+		        posbc = Arrptr->Protection_bcpos[i];
+	      		swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[posbc], Solverptr->t) * (1 - Parptr->SWpart);              
+	      }
 	      if (Arrptr->Protection_posy[i] == 0)
-	      {if (Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
+	      {if (Arrptr->H[p3]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p4]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p5]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p6]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p7]+swash >= Arrptr->Protection_pfh[i])
                       {
-                              printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
+			      printf("swash = %lf\n",swash);
+			      printf("Surrounding heights are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p3], Arrptr->H[p4], Arrptr->H[p5], Arrptr->H[p6], Arrptr->H[p7]);
+                      	      printf("Surrounding heights + swash are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p3]+swash, Arrptr->H[p4]+swash, Arrptr->H[p5]+swash, Arrptr->H[p6]+swash, Arrptr->H[p7]+swash);
+		      	      printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
                               Arrptr->Protection_pf[i] = 1;
                               ppos= Arrptr->Protection_pos[i];
                               Arrptr->DEM[ppos] = Arrptr->DEM[ppos]-Arrptr->Protection_ph[i];
@@ -617,8 +626,11 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
               }
 
 	      else if (Arrptr->Protection_posy[i] == Parptr->ysz-1)
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i])
+	      {if (Arrptr->H[p0]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p1]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p2]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p3]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p4]+swash >= Arrptr->Protection_pfh[i])
                       {
+			      printf("swash = %lf\n",swash);
+			      printf("Surrounding heights are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0], Arrptr->H[p1], Arrptr->H[p2], Arrptr->H[p3], Arrptr->H[p4]);
+			      printf("Surrounding heights + swash are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0]+swash, Arrptr->H[p1]+swash, Arrptr->H[p2]+swash, Arrptr->H[p3]+swash, Arrptr->H[p4]+swash);
                               printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
                               Arrptr->Protection_pf[i] = 1;
                               ppos= Arrptr->Protection_pos[i];
@@ -628,8 +640,11 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
 	      
 	      
 	      else if (Arrptr->Protection_posx[i] == 0)
-	      {if (Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
+	      {if (Arrptr->H[p1]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p2]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p4]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p6]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p7]+swash >= Arrptr->Protection_pfh[i])
                       {
+			      printf("swash = %lf\n",swash);
+			      printf("Surrounding heights are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p1], Arrptr->H[p2], Arrptr->H[p4], Arrptr->H[p6], Arrptr->H[p7]);
+			      printf("Surrounding heights + swash are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p1]+swash, Arrptr->H[p2]+swash, Arrptr->H[p4]+swash, Arrptr->H[p6]+swash, Arrptr->H[p7]+swash);
                               printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
                               Arrptr->Protection_pf[i] = 1;
                               ppos= Arrptr->Protection_pos[i];
@@ -639,8 +654,11 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
 
 
 	      else if (Arrptr->Protection_posx[i] == Parptr->xsz-1)
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i])
+	      {if (Arrptr->H[p0]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p1]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p3]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p5]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p6]+swash >= Arrptr->Protection_pfh[i])
                       {
+			      printf("swash = %lf\n",swash);
+			      printf("Surrounding heights are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0], Arrptr->H[p1], Arrptr->H[p3], Arrptr->H[p5], Arrptr->H[p6]);
+			      printf("Surrounding heights + swash are %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0]+swash, Arrptr->H[p1]+swash, Arrptr->H[p3]+swash, Arrptr->H[p5]+swash, Arrptr->H[p6]+swash);
                               printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
                               Arrptr->Protection_pf[i] = 1;
                               ppos= Arrptr->Protection_pos[i];
@@ -651,8 +669,11 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
 
 
 	      else
-	      {if (Arrptr->H[p0] >= Arrptr->Protection_pfh[i] || Arrptr->H[p1] >= Arrptr->Protection_pfh[i] || Arrptr->H[p2] >= Arrptr->Protection_pfh[i] || Arrptr->H[p3] >= Arrptr->Protection_pfh[i] || Arrptr->H[p4] >= Arrptr->Protection_pfh[i] || Arrptr->H[p5] >= Arrptr->Protection_pfh[i] || Arrptr->H[p6] >= Arrptr->Protection_pfh[i] || Arrptr->H[p7] >= Arrptr->Protection_pfh[i])
+	      {if (Arrptr->H[p0]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p1]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p2]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p3]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p4]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p5]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p6]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p7]+swash >= Arrptr->Protection_pfh[i])
                       {
+			      printf("swash = %lf\n",swash);
+			      printf("Surrounding heights are %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0], Arrptr->H[p1], Arrptr->H[p2], Arrptr->H[p3], Arrptr->H[p4], Arrptr->H[p5], Arrptr->H[p6], Arrptr->H[p7]);
+			      printf("Surrounding heights + swash are %lf, %lf, %lf, %lf, %lf, %lf, %lf, %lf\n", Arrptr->H[p0]+swash, Arrptr->H[p1]+swash, Arrptr->H[p2]+swash,Arrptr->H[p3]+swash, Arrptr->H[p4]+swash, Arrptr->H[p5]+swash, Arrptr->H[p6]+swash, Arrptr->H[p7]+swash);
                               printf("Failure in protection %d [%.3f,%.3f] (%.0f,%.0f) at time %.0f \n", i, Arrptr->Protection_x[i], Arrptr->Protection_y[i], Arrptr->Protection_posx[i], Arrptr->Protection_posy[i],Solverptr->t);
 			      Arrptr->Protection_pf[i] = 1;
                               ppos= Arrptr->Protection_pos[i];

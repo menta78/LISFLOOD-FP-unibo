@@ -385,21 +385,19 @@ void LoadProtection(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *A
                         exit(0);
                 }
 
-
-		//test=std::pow(2,2);
 		d=std::sqrt(std::pow(BCptr->xpi_val[0] - x, 2) + std::pow(BCptr->ypi_val[0] - y, 2));
-
-    		for (int z = 0; z < BCptr->count; ++z) 
+		posd = 0;
+    		for (int z = 0; z < BCptr->count; z++) 
 		{
         		distance = std::sqrt(std::pow(BCptr->xpi_val[z] - x, 2) + std::pow(BCptr->ypi_val[z] - y, 2));
-        		if (d > distance) 
+			if (d > distance)
 			{
            	 		d = distance;
            			posd = z;
 			}
 		}
+		
 		Arrptr->Protection_bcpos[i] = posd;
-
 		posi=(int)(xi + yi*Parptr->xsz);
                 Arrptr->Protection_PROTEC[posi]=Arrptr->Protection_ph[i];
                 if(Arrptr->Protection_PROTEC[posi]>0)
@@ -1630,7 +1628,7 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 	int pi = -1, maxpi = 20000;  // increase max from 10 to 20K (MT)
 	NUMERIC_TYPE px, py;
 
-	int *new_xpi, *new_ypi;
+	int *new_xpi, *new_ypi, *new_xpi_val, *new_ypi_val;
 	ESourceType *new_PS_Ident;
 	NUMERIC_TYPE *new_PS_Val, *new_PS_Q_FP_old, *new_PS_Q_SG_old;
 	char *new_PS_Name;
@@ -1896,6 +1894,8 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 		pi++;
 		new_xpi = new int[pi];
 		new_ypi = new int[pi];
+		new_xpi_val = new int[pi];
+                new_ypi_val = new int[pi];
 		new_PS_Ident = new ESourceType[pi];
 		new_PS_Val = memory_allocate_numeric_legacy(pi);
 		new_PS_Q_FP_old = memory_allocate_zero_numeric_legacy(pi);
@@ -1907,6 +1907,8 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 		{
 			new_xpi[i] = BCptr->xpi[i];
 			new_ypi[i] = BCptr->ypi[i];
+			new_xpi_val[i] = BCptr->xpi_val[i];
+                        new_ypi_val[i] = BCptr->ypi_val[i];
 			new_PS_Ident[i] = BCptr->PS_Ident[i];
 			new_PS_Val[i] = BCptr->PS_Val[i];
 			for (j = 0; j < 80; j++)
@@ -1914,12 +1916,16 @@ void LoadBCs(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, BoundCs *BCptr, 
 		}
 		delete[] BCptr->xpi;
 		delete[] BCptr->ypi;
+		delete[] BCptr->xpi_val;
+                delete[] BCptr->ypi_val;
 		delete[] BCptr->PS_Ident;
 		memory_free_legacy(&BCptr->PS_Val);
 		delete[] BCptr->PS_Name;
 
 		BCptr->xpi = new_xpi;
 		BCptr->ypi = new_ypi;
+		BCptr->xpi_val = new_xpi_val;
+                BCptr->ypi_val = new_ypi_val;
 		BCptr->count = pi;
 		BCptr->PS_Ident = new_PS_Ident;
 		BCptr->PS_Val = new_PS_Val;
