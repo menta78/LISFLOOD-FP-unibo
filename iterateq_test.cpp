@@ -567,7 +567,7 @@ void UpdateH(States *Statesptr, Pars *Parptr, Solver *Solverptr, BoundCs *BCptr,
 		{
 			
 			himp = InterpolateTimeSeries(BCptr->PS_TimeSeries[ps_index], Solverptr->t) - Arrptr->DEM[BCptr->xpi[ps_index] + BCptr->ypi[ps_index] * Parptr->xsz];
-			if (BCptr->PS_SWTimeSeries[ps_index] != NULL)
+			if (BCptr->PS_SWTimeSeries != NULL)
 				{
 					NUMERIC_TYPE swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[ps_index], Solverptr->t);
 					himpSW = (swash * Parptr->SWpart); // watersupply = swash/2 * factor
@@ -610,10 +610,7 @@ void UpdateDEM(Fnames *Fnameptr, States *Statesptr, Pars *Parptr, Arrays *Arrptr
 	      if (strlen(Fnameptr->protectionfilename) != 0)
 	      {      
 		        posbc = Arrptr->Protection_bcpos[i];
-	      		if (BCptr->PS_SWTimeSeries[posbc] != NULL)
-			{
-				swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[posbc], Solverptr->t) * (1 - Parptr->SWpart);
-	  		}		
+	      		swash = InterpolateTimeSeries(BCptr->PS_SWTimeSeries[posbc], Solverptr->t) * (1 - Parptr->SWpart);              
 	      }
 	      if (Arrptr->Protection_posy[i] == 0)
 	      {if (Arrptr->H[p3]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p4]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p5]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p6]+swash >= Arrptr->Protection_pfh[i] || Arrptr->H[p7]+swash >= Arrptr->Protection_pfh[i])
