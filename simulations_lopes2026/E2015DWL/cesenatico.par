@@ -1,0 +1,12 @@
+DEMfile	cesenatico.dem.asc
+fpfric	0.06
+bcifile	cesenatico.bci
+bdyfile	cesenatico.bdy
+protectionfile	cesenatico.protection
+resroot	res
+dirroot	results
+sim_time	429000
+initial_tstep	1
+massint	3600
+saveint	3600
+acceleration	
